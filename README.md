@@ -7,7 +7,7 @@ This is the team repository for Spring Team 1
 Project details below. 
 
 ### Project Name
-HomeService
+HomeLink
 
 ### Project Description  
 HomeLink is a web-based marketplace for home services that connects homeowners with service providers such as plumbers, electricians, cleaners, and landscapers. It supports three user roles (homeowner, service provider, admin) and enables service browsing, booking management, secure payments, and provider reviews.

@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.center {
+  color: black;
+  padding: 100px 0;
+  text-align: center;
+
+  h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+  }
+
+  .subtitle {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    
+  }
+
+ 
+}

@@ -1,0 +1,199 @@
+<div class="dashboard-container">
+  <!-- Header Section -->
+  <header class="dashboard-header">
+    <div class="user-info">
+      <h1>Welcome, {{ userName }}</h1>
+      <p class="user-email">{{ userEmail }}</p>
+    </div>
+    <div class="dashboard-actions">
+      <button class="change-password-btn" routerLink="/change-password">Change Password</button>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <!-- Actions Section -->
+  <section class="actions-section">
+    <button (click)="createNewRequest()" class="btn-primary">
+      <span class="icon">+</span>
+      Create New Service Request
+    </button>
+  </section>
+
+  <!-- Active Service Requests Section -->
+  <section class="requests-section">
+    <h2>Your Service Requests</h2>
+
+    <!-- Sort Dropdown -->
+    <div class="sort-container" *ngIf="serviceRequests.length > 0">
+      <label for="sort">Sort By:</label>
+      <select id="sort" [(ngModel)]="sortOption" (change)="sortRequests()">
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+      </select>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Loading your requests...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="errorMessage && !isLoading" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && !errorMessage && serviceRequests.length === 0" class="empty-state">
+      <div class="empty-icon"></div>
+      <h3>No Service Requests Yet</h3>
+      <p>Create your first service request to get started!</p>
+      <button (click)="createNewRequest()" class="btn-secondary">Create Request</button>
+    </div>
+
+    <!-- Active Requests List -->
+    <div *ngIf="!isLoading && activeRequests.length > 0" class="requests-grid">
+      <div *ngFor="let request of activeRequests" class="request-card">
+        <div class="request-header">
+          <h3>{{ request.categoryName }}</h3>
+          <span class="status-badge" [ngClass]="getStatusClass(request.status)">
+            {{ request.status }}
+          </span>
+        </div>
+        <div class="request-body">
+          <p class="description">{{ request.description }}</p>
+          <div class="request-details">
+            <div class="detail-item">
+              <span class="label">Scheduled Date:</span>
+              <span class="value">{{ request.scheduledDate | date:'medium' }}</span>
+            </div>
+            <div class="detail-item" *ngIf="request.providerName">
+              <span class="label">Provider:</span>
+              <span class="value">{{ request.providerName }}</span>
+            </div>
+            <div class="detail-item" *ngIf="request.agreedPrice">
+              <span class="label">Agreed Price:</span>
+              <span class="value price-agreed">${{ request.agreedPrice }}</span>
+            </div>
+
+            <!-- Accept/Decline Quote Buttons -->
+            <div *ngIf="request.status === 'PENDING_QUOTE' && request.agreedPrice && request.providerId">
+              <button class="action-btn accept-btn" (click)="acceptQuote(request.id, request.providerId)">
+                Accept Quote
+              </button>
+              <button class="action-btn decline-btn" (click)="updateQuoteRequestId = request.id; updateProviderId = request.providerId; declineQuote = true;">
+                Decline Quote
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cancel Button for Active Requests -->
+        <div class="request-footer" *ngIf="request.status !== 'COMPLETED' && request.status !== 'CANCELLED' && request.status !== 'PENDING_QUOTE'">
+          <button class="btn-cancel" (click)="cancelRequest(request.id)">Cancel Request</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decline Reason Modal -->
+    <div *ngIf="declineQuote" class="modal">
+      <div class="modal-content">
+        <h3>Decline Quote</h3>
+        <textarea [(ngModel)]="declineReason" placeholder="Reason for declining" rows="3"></textarea>
+        <div style="margin-top: 1rem;">
+          <button class="modal-btn confirm" [disabled]="!updateQuoteRequestId" (click)="declineQuoteRequest(updateQuoteRequestId!, updateProviderId!)">
+            Submit
+          </button>
+          <button class="modal-btn cancel" (click)="declineQuote = false; declineReason = '';">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Active Requests (but completed ones exist) -->
+    <div *ngIf="!isLoading && !errorMessage && activeRequests.length === 0 && completedRequests.length > 0" class="empty-state">
+      <div class="empty-icon"></div>
+      <h3>No Active Requests</h3>
+      <p>All your requests have been completed!</p>
+      <button (click)="createNewRequest()" class="btn-secondary">Create New Request</button>
+    </div>
+  </section>
+
+  <!-- Completed Requests Section -->
+  <section class="requests-section completed-section" *ngIf="!isLoading && completedRequests.length > 0">
+    <h2>Completed Requests</h2>
+    <div class="requests-grid">
+      <div *ngFor="let request of completedRequests" class="request-card request-card--completed">
+        <div class="request-header">
+          <h3>{{ request.categoryName }}</h3>
+          <span class="status-badge status-completed">{{ request.status }}</span>
+        </div>
+        <div class="request-body">
+          <p class="description">{{ request.description }}</p>
+          <div class="request-details">
+            <div class="detail-item">
+              <span class="label">Scheduled Date:</span>
+              <span class="value">{{ request.scheduledDate | date:'medium' }}</span>
+            </div>
+            <div class="detail-item" *ngIf="request.providerName">
+              <span class="label">Provider:</span>
+              <span class="value">{{ request.providerName }}</span>
+            </div>
+            <div class="detail-item" *ngIf="request.agreedPrice">
+              <span class="label">Agreed Price:</span>
+              <span class="value price-agreed">${{ request.agreedPrice }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cancelled Requests Section -->
+  <section class="requests-section cancelled-section" *ngIf="!isLoading && cancelledRequests.length > 0">
+    <h2>Cancelled Requests ({{ cancelledRequests.length }})</h2>
+    <div class="requests-grid">
+      <div *ngFor="let request of cancelledRequests" class="request-card request-card--cancelled">
+        <div class="request-header">
+          <h3>{{ request.categoryName }}</h3>
+          <span class="status-badge status-cancelled">Cancelled</span>
+        </div>
+        <div class="request-body">
+          <p class="description">{{ request.description }}</p>
+          <div class="request-details">
+            <div class="detail-item">
+              <span class="label">Scheduled Date:</span>
+              <span class="value">{{ request.scheduledDate | date:'medium' }}</span>
+              <span class="value">{{ request.scheduledDate | date:'medium' }}</span>
+            </div>
+            <div class="detail-item" *ngIf="request.providerName">
+              <span class="label">Provider:</span>
+              <span class="value">{{ request.providerName }}</span>
+            </div>
+            <div class="detail-item" *ngIf="request.agreedPrice">
+              <span class="label">Agreed Price:</span>
+              <span class="value price-agreed">${{ request.agreedPrice }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section" *ngIf="serviceRequests.length > 0">
+    <div class="stat-card">
+      <div class="stat-value">{{ serviceRequests.length }}</div>
+      <div class="stat-label">Total Requests</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ getPendingCount() }}</div>
+      <div class="stat-label">Pending</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ getCompletedCount() }}</div>
+      <div class="stat-label">Completed</div>
+    </div>
+  </section>
+</div>

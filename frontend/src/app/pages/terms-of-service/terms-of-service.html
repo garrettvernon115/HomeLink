@@ -1,0 +1,19 @@
+<section class="terms-hero">
+  <h1>Terms of Service</h1>
+  <p>Last updated: {{ today | date:'longDate' }}</p>
+</section>
+
+<section class="terms-container">
+  <div class="terms-list">
+    <div class="terms-card" *ngFor="let term of terms">
+      <h3>{{ term.title }}</h3>
+      <p>{{ term.content }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="terms-cta">
+  <h2>Questions about these Terms?</h2>
+  <p>If you need clarification, reach out to us directly.</p>
+  <a routerLink="/contact" class="cta-button">Contact Us</a>
+</section>

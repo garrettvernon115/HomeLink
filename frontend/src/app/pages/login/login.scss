@@ -1,0 +1,99 @@
+/*
+
+Login Page Component SCSS styles
+@author: [Derek Olive]
+Version: 1.0
+
+*/
+
+
+/* Login container styles */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+
+/* Login card styles */
+.login-card {
+  width: 380px;
+  padding: 40px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+}
+
+/* Login title styles */
+h2 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.login-subtitle {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #666;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Input field styles */
+input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Show password button styles */
+.password-wrapper {
+  display: flex;
+}
+
+.show-password {
+  margin-left: 8px;
+  background: none;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Login button hover effect */
+.login-button:hover {
+  background: #1d4ed8;
+}
+
+/* Error message styles */
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.validation {
+  color: red;
+  font-size: 12px;
+}
+
+/*Additional styles for links */
+.login-links {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.login-links a {
+  color: #2563eb;
+}

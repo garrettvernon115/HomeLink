@@ -1,0 +1,74 @@
+<!--
+
+Contact Page Component HTML template
+@author: [Derek Olive]
+Version: 1.0 3/14/26
+
+-->
+
+<!-- Contact page container -->
+<section class="contact-container">
+
+    <!-- Contact page card -->
+  <div class="contact-card">
+
+    <h2>Contact Us</h2>
+    <p class="contact-subtitle">
+      Have a question? Send us a message and we'll get back to you as soon as possible!
+    </p>
+
+    <form (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          id="name"
+          type="text"
+          name="name"
+          [(ngModel)]="name"
+          placeholder="Enter your name"
+          required
+        />
+      </div>
+
+        <!-- Email input -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          [(ngModel)]="email"
+          placeholder="Enter your email"
+          required
+        />
+      </div>
+
+         <!-- Message textarea -->
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea
+          id="message"
+          name="message"
+          [(ngModel)]="message"
+          placeholder="Write your message here..."
+          rows="5"
+          required
+        ></textarea>
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" class="contact-button">
+        Send Message
+      </button>
+
+      <!-- Success message -->
+      <p class="success-message" *ngIf="successMessage">
+        {{ successMessage }}
+      </p>
+
+    </form>
+
+  </div>
+
+</section>

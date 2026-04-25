@@ -1,0 +1,301 @@
+<div class="admin-dashboard">
+  <div class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <p class="subtitle">Manage users and service requests</p>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-navigation">
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'users'"
+      (click)="switchTab('users')">
+      Users Management
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'requests'"
+      (click)="switchTab('requests')">
+      Service Requests
+    </button>
+  </div>
+
+  <!-- Users Tab Content -->
+  <div *ngIf="activeTab === 'users'" class="tab-content">
+
+    <!-- Filters Section -->
+    <div class="filters-section">
+    <div class="search-box">
+      <label for="search">Search Users:</label>
+      <input 
+        id="search"
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        (ngModelChange)="onSearchChange()"
+        placeholder="Search by name or email..."
+        class="search-input"
+      />
+    </div>
+
+    <div class="role-filter">
+      <label for="roleFilter">Filter by Role:</label>
+      <select 
+        id="roleFilter"
+        [(ngModel)]="selectedRole" 
+        (ngModelChange)="onRoleFilterChange()"
+        class="role-select"
+      >
+        <option value="ALL">All Roles</option>
+        <option value="HOMEOWNER">Homeowner</option>
+        <option value="PROVIDER">Provider</option>
+        <option value="ADMIN">Admin</option>
+      </select>
+      </div>
+    </div>
+
+    <!-- Results Count -->
+    <div class="results-info">
+      <p>Showing {{ filteredUsers.length }} of {{ users.length }} users</p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading users...</p>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage && !isLoading" class="error-message">
+      <p>{{ errorMessage }}</p>
+      <button (click)="loadUsers()" class="retry-btn">Retry</button>
+    </div>
+
+    <!-- Users Table -->
+    <div *ngIf="!isLoading && !errorMessage" class="users-table-container">
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Phone</th>
+          <th>Registration Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers" class="user-row">
+          <td>{{ user.id }}</td>
+          <td>{{ getFullName(user) }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <span class="role-badge role-{{ user.role.toLowerCase() }}">
+              {{ user.role }}
+            </span>
+          </td>
+          <td>{{ user.phone || 'N/A' }}</td>
+          <td>{{ formatDate(user.createdAt) }}</td>
+         <td>
+          <span [class]="'status-badge ' + getStatusClass(user.isActive)">
+            {{ getStatusLabel(user.isActive) }}
+          </span>
+          <button
+            class="action-btn"
+            [ngClass]="user.isActive ? 'deactivate-btn' : 'activate-btn'"
+            (click)="openStatusModal(user); $event.stopPropagation()">
+            {{ user.isActive ? 'Deactivate' : 'Activate' }}
+          </button>
+          <button class="action-btn details-btn" (click)="openUserDetailModal(user); $event.stopPropagation()">
+           Details
+          </button>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+
+      <!-- Empty State -->
+      <div *ngIf="filteredUsers.length === 0" class="empty-state">
+        <p>No users found matching your search criteria.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service Requests Tab Content -->
+  <div *ngIf="activeTab === 'requests'" class="tab-content">
+    <!-- Filters Section -->
+    <div class="filters-section">
+      <div class="search-box">
+        <label for="requestSearch">Search Requests:</label>
+        <input 
+          id="requestSearch"
+          type="text" 
+          [(ngModel)]="requestSearchTerm" 
+          (ngModelChange)="onRequestSearchChange()"
+          placeholder="Search by description, category, or names..."
+          class="search-input"
+        />
+      </div>
+
+      <div class="role-filter">
+        <label for="statusFilter">Filter by Status:</label>
+        <select 
+          id="statusFilter"
+          [(ngModel)]="selectedStatus" 
+          (ngModelChange)="onStatusFilterChange()"
+          class="role-select"
+        >
+          <option value="ALL">All Status</option>
+          <option value="PENDING">Pending</option>
+          <option value="ACCEPTED">Accepted</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="COMPLETED">Completed</option>
+          <option value="CANCELLED">Cancelled</option>
+        </select>
+      </div>
+
+      <div class="role-filter">
+        <label for="categoryFilter">Filter by Category:</label>
+        <select 
+          id="categoryFilter"
+          [(ngModel)]="selectedCategory" 
+          (ngModelChange)="onCategoryFilterChange()"
+          class="role-select"
+        >
+          <option value="ALL">All Categories</option>
+          <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Results Count -->
+    <div class="results-info">
+      <p>Showing {{ filteredRequests.length }} of {{ serviceRequests.length }} requests</p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoadingRequests" class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading service requests...</p>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="requestsErrorMessage && !isLoadingRequests" class="error-message">
+      <p>{{ requestsErrorMessage }}</p>
+      <button (click)="loadServiceRequests()" class="retry-btn">Retry</button>
+    </div>
+
+    <!-- Service Requests Table -->
+    <div *ngIf="!isLoadingRequests && !requestsErrorMessage" class="users-table-container">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Category</th>
+            <th>Homeowner</th>
+            <th>Provider</th>
+            <th>Status</th>
+            <th>Scheduled Date</th>
+            <th>Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let request of filteredRequests" class="user-row">
+            <td>{{ request.id }}</td>
+            <td>{{ request.categoryName }}</td>
+            <td>{{ request.homeownerName || 'N/A' }}</td>
+            <td>{{ request.providerName || 'Not Assigned' }}</td>
+            <td>
+              <span [class]="'status-badge ' + getRequestStatusClass(request.status)">
+                {{ request.status }}
+              </span>
+            </td>
+            <td>{{ formatDateTime(request.scheduledDate) }}</td>
+            <td>{{ request.agreedPrice ? ('$' + request.agreedPrice) : 'Not Set' }}</td>
+            <td>
+              <button
+                *ngIf="request.status !== 'CANCELLED' && request.status !== 'COMPLETED'"
+                class="action-btn deactivate-btn"
+                (click)="openCancelModal(request); $event.stopPropagation()">
+                Cancel
+              </button>
+              <span *ngIf="request.status === 'CANCELLED' || request.status === 'COMPLETED'" class="no-action">
+                -
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Empty State -->
+      <div *ngIf="filteredRequests.length === 0" class="empty-state">
+        <p>No service requests found matching your search criteria.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" *ngIf="showStatusModal">
+  <div class="modal-content">
+    <h3>{{ selectedUser?.isActive ? 'Deactivate' : 'Activate' }} User</h3>
+    <p>
+      Are you sure you want to 
+      {{ selectedUser?.isActive ? 'deactivate' : 'activate' }} 
+      {{ getFullName(selectedUser!) }}?
+    </p>
+    <button class="modal-btn confirm" (click)="confirmStatusChange()">
+      Confirm
+    </button>
+    <button class="modal-btn cancel" (click)="closeStatusModal()">
+      Cancel
+    </button>
+  </div>
+</div>
+
+<div class="modal" *ngIf="showUserDetailModal">
+  <div class="modal-content">
+    <h3>User Details</h3>
+    <p>Name: {{ getFullName(selectedUser!) }}</p>
+    <p>Email: {{ selectedUser?.email }}</p>
+    <p>Role: {{ selectedUser?.role }}</p>
+    <p>Phone: {{ selectedUser?.phone || 'N/A' }}</p>
+    <p>Registration Date: {{ formatDate(selectedUser?.createdAt || '') }}</p>
+    <p>Status: {{ getStatusLabel(selectedUser?.isActive ?? false) }}</p>
+    <button class="modal-btn" (click)="closeUserDetailModal()">
+      Close
+    </button>
+  </div>
+</div>
+
+<!-- Cancel Request Modal -->
+<div class="modal" *ngIf="showCancelModal">
+  <div class="modal-content">
+    <h3>Cancel Service Request</h3>
+    <p>Are you sure you want to cancel this request?</p>
+    <p><strong>Category:</strong> {{ selectedRequest?.categoryName }}</p>
+    <p><strong>Homeowner:</strong> {{ selectedRequest?.homeownerName }}</p>
+    
+    <div class="form-group">
+      <label for="cancelReason">Reason for Cancellation: *</label>
+      <textarea 
+        id="cancelReason"
+        [(ngModel)]="cancelReason"
+        placeholder="Please provide a reason for cancelling this request..."
+        rows="4"
+        class="cancel-reason-input"
+        required>
+      </textarea>
+    </div>
+    
+    <button 
+      class="modal-btn confirm" 
+      (click)="confirmCancelRequest()"
+      [disabled]="!cancelReason.trim()">
+      Confirm Cancel
+    </button>
+    <button class="modal-btn cancel" (click)="closeCancelModal()">
+      Go Back
+    </button>
+  </div>
+</div>

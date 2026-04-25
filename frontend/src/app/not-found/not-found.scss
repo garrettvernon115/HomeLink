@@ -1,0 +1,44 @@
+.not-found-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Arial', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.error-code {
+  font-size: 8em;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1;
+}
+
+.error-title {
+  font-size: 2em;
+  color: #333;
+  margin: 10px 0 20px;
+}
+
+.error-message {
+  color: #666;
+  font-size: 1.2em;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

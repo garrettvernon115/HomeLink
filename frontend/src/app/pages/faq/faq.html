@@ -1,0 +1,30 @@
+<!--
+
+Faq Page HTML 
+@author: [Derek Olive]
+Version: 0.8 3/20/26
+
+-->
+
+
+<section class="faq-hero">
+  <h1>Frequently Asked Questions</h1>
+  <p>Everything you need to know about using HomeLink</p>
+</section>
+
+<section class="faq-container">
+  <div class="faq-list">
+
+    <div class="faq-card" *ngFor="let faq of faqs">
+      <h3>{{ faq.question }}</h3>
+      <p>{{ faq.answer }}</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="faq-cta">
+  <h2>Still have questions?</h2>
+  <p>If you need more help or have any inquiries, reach out to us directly.</p>
+  <a routerLink="/contact" class="cta-button">Contact Us</a>
+</section>

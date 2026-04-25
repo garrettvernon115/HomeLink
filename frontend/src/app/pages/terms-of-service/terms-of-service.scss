@@ -1,0 +1,124 @@
+/*
+
+Terms of Service component SCSS styles
+@author: [Derek Olive]
+Version: 0.8 4/5/26
+
+*/
+
+
+/* HERO SECTION */
+.terms-hero {
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: white;
+  padding: 100px 20px;
+  text-align: center;
+}
+
+/* HERO HEADING */
+.terms-hero h1 {
+  font-size: 50px;
+  margin-bottom: 15px;
+}
+
+.terms-hero p {
+  font-size: 22px;
+  opacity: 0.9;
+}
+
+/* TERMS SECTION */
+.terms-container {
+  padding: 60px 20px;
+  background: #f9fafb;
+}
+
+/* Grid layout for cards */
+.terms-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  margin: 0 auto;
+}
+
+/* Terms Cards */
+.terms-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.terms-card h3 {
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.terms-card p {
+  color: #555;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Hover effect */
+.terms-card:hover {
+  transform: translateY(-8px);
+}
+
+/* CTA Section */
+.terms-cta {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  color: white;
+  margin-top: 40px;
+}
+
+.terms-cta h2 {
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+.terms-cta p {
+  font-size: 18px;
+  opacity: 0.9;
+  margin-bottom: 30px;
+}
+
+/* CTA Button */
+.terms-cta .cta-button {
+  display: inline-block;
+  background: white;
+  color: #1e3a8a;
+  padding: 15px 35px;
+  font-size: 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.terms-cta .cta-button:hover {
+  transform: scale(1.05);
+}
+
+/* Privacy/Terms Cards Grid Layout */
+.privacy-list, .terms-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+  gap: 25px;
+  margin: 0 auto;
+}
+
+/* Optional: make it responsive for smaller screens */
+@media (max-width: 1024px) {
+  .privacy-list, .terms-list {
+    grid-template-columns: repeat(2, 1fr); /* 2 per row on tablets */
+  }
+}
+
+@media (max-width: 640px) {
+  .privacy-list, .terms-list {
+    grid-template-columns: 1fr; /* 1 per row on mobile */
+  }
+}

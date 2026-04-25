@@ -1,0 +1,52 @@
+<!--
+
+Navbar component HTML template
+@author: [Derek Olive]
+Version: 1.1
+
+-->
+
+<nav class="navbar">
+  <div class="logo">
+    <img src="/Logo.png" alt="HomeLink Logo" class="logo-img">
+    <h2>HomeLink</h2>
+  </div>
+
+  <!--- Navigation links -->
+  <ul class="nav-links">
+    <li *ngIf="isLoggedIn && firstName">Welcome, {{ firstName }}!</li>
+    <li><a routerLink="/">Home</a></li>
+    <li><a routerLink="/services">Browse Services</a></li>
+    <li><a routerLink="/how-it-works">How It Works</a></li>
+
+    <!-- Show Dashboard link only when logged in -->
+    <li *ngIf="isHomeowner">
+      <a routerLink="/homeowner/dashboard">Dashboard</a>
+    </li>
+    <li *ngIf="isHomeowner">
+      <a routerLink="/payment/1">Payments</a>
+    </li>
+    <li *ngIf="isProvider">
+      <a routerLink="/provider/dashboard">Dashboard</a>
+    </li>
+    <li *ngIf="isAdmin">
+      <a routerLink="/admin/dashboard">Admin</a>
+    </li>
+    
+    <!-- Show Login/Register only when NOT logged in -->
+    <li *ngIf="!isLoggedIn"><a routerLink="/login">Login</a></li>
+    <li *ngIf="!isLoggedIn"><a routerLink="/signup">Register</a></li>
+    
+    <!-- Show Edit Profile when logged in -->
+    <li *ngIf="isLoggedIn">
+      <a routerLink="/profile-edit">Edit Profile</a>
+    </li>
+    
+    <!-- Show Logout when logged in -->
+    <li *ngIf="isLoggedIn">
+      <a (click)="logout()" style="cursor: pointer;">Logout</a>
+    </li>
+    
+    <li><a routerLink="/about">About Us</a></li>
+  </ul>
+</nav>

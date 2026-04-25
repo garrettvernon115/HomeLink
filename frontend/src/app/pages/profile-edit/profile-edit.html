@@ -1,0 +1,120 @@
+<div class="profile-edit-container">
+  <!-- Header -->
+  <header class="page-header">
+    <h1>Edit Profile</h1>
+    <p class="subtitle">Update your personal information</p>
+  </header>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading your profile...</p>
+  </div>
+
+  <!-- Profile Form -->
+  <div *ngIf="!isLoading" class="form-container">
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="alert alert-success">
+      <i class="fas fa-check-circle"></i>
+      {{ successMessage }}
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="alert alert-error">
+      <i class="fas fa-exclamation-circle"></i>
+      {{ errorMessage }}
+    </div>
+
+    <form (ngSubmit)="saveProfile()" #profileForm="ngForm">
+      <!-- Email (Read-only) -->
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="profile.email"
+          class="form-input"
+          readonly
+          disabled>
+        <span class="field-hint">Email cannot be changed</span>
+      </div>
+
+      <!-- First Name -->
+      <div class="form-group">
+        <label for="firstName">
+          First Name <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          [(ngModel)]="profile.firstName"
+          class="form-input"
+          [class.error]="validationErrors.firstName"
+          maxlength="100"
+          required>
+        <span *ngIf="validationErrors.firstName" class="error-message">
+          {{ validationErrors.firstName }}
+        </span>
+      </div>
+
+      <!-- Last Name -->
+      <div class="form-group">
+        <label for="lastName">
+          Last Name <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="lastName"
+          name="lastName"
+          [(ngModel)]="profile.lastName"
+          class="form-input"
+          [class.error]="validationErrors.lastName"
+          maxlength="100"
+          required>
+        <span *ngIf="validationErrors.lastName" class="error-message">
+          {{ validationErrors.lastName }}
+        </span>
+      </div>
+
+      <!-- Phone -->
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          [(ngModel)]="profile.phone"
+          class="form-input"
+          [class.error]="validationErrors.phone"
+          maxlength="15"
+          placeholder="555-123-4567">
+        <span *ngIf="validationErrors.phone" class="error-message">
+          {{ validationErrors.phone }}
+        </span>
+        <span class="field-hint">Optional - Enter your contact phone number</span>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button
+          type="button"
+          (click)="cancel()"
+          class="btn btn-secondary"
+          [disabled]="isSaving">
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="isSaving">
+          <span *ngIf="!isSaving">Save Changes</span>
+          <span *ngIf="isSaving">
+            <i class="fas fa-spinner fa-spin"></i> Saving...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

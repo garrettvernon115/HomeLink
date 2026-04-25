@@ -1,0 +1,90 @@
+<div class="form-container">
+  <div class="form-header">
+    <h1>Create Service Request</h1>
+    <p>Fill out the form below to request a service from our providers</p>
+  </div>
+
+  <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="request-form">
+    
+    <!-- Service Category -->
+    <div class="form-group">
+      <label for="categoryId">Service Category *</label>
+      <select 
+        id="categoryId" 
+        formControlName="categoryId"
+        [class.error]="hasError('categoryId')">
+        <option value="">Select a category...</option>
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </option>
+      </select>
+      <span class="error-message" *ngIf="hasError('categoryId')">
+        {{ getErrorMessage('categoryId') }}
+      </span>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description *</label>
+      <textarea 
+        id="description" 
+        formControlName="description"
+        placeholder="Please describe the service you need in detail..."
+        rows="5"
+        [class.error]="hasError('description')">
+      </textarea>
+      <span class="error-message" *ngIf="hasError('description')">
+        {{ getErrorMessage('description') }}
+      </span>
+    </div>
+
+    <!-- Scheduled Date -->
+    <div class="form-group">
+      <label for="scheduledDate">Preferred Date *</label>
+      <input 
+        type="datetime-local" 
+        id="scheduledDate" 
+        formControlName="scheduledDate"
+        [class.error]="hasError('scheduledDate')">
+      <span class="error-message" *ngIf="hasError('scheduledDate')">
+        {{ getErrorMessage('scheduledDate') }}
+      </span>
+    </div>
+
+    <!-- Preferred Time Slot (Optional) -->
+    <div class="form-group">
+      <label for="preferredTimeSlot">Preferred Time Slot (Optional)</label>
+      <select id="preferredTimeSlot" formControlName="preferredTimeSlot">
+        <option value="">Select a time slot...</option>
+        <option *ngFor="let slot of timeSlots" [value]="slot">{{ slot }}</option>
+      </select>
+    </div>
+
+    <!-- Additional Notes (Optional) -->
+    <div class="form-group">
+      <label for="additionalNotes">Additional Notes (Optional)</label>
+      <textarea 
+        id="additionalNotes" 
+        formControlName="additionalNotes"
+        placeholder="Any other details we should know..."
+        rows="3">
+      </textarea>
+    </div>
+
+    <!-- Error/Success Messages -->
+    <div class="alert error-alert" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+    <div class="alert success-alert" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn-submit" [disabled]="isLoading">
+        {{ isLoading ? 'Creating...' : 'Create Request' }}
+      </button>
+    </div>
+  </form>
+</div>

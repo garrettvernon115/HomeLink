@@ -1,0 +1,60 @@
+/*
+
+Navbar component SCSS styles
+@author: [Derek Olive]
+Version: 1.0
+
+*/
+
+/* Navbar container styles */
+.navbar {
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e3a8a;
+  padding: 15px 40px;
+  color: white;
+}
+
+/* Logo styles */
+.logo {
+  display: flex;
+  align-items: center;
+}
+.logo h2 {
+  margin: 0;
+}
+
+/* Navigation link styles */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin: 0;
+}
+
+/* Navigation link a styles */
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+}
+
+/* Navigation link hover effect */
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* Logo image styles */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/*  Logo image styles */
+.logo-img {
+  height: 50px;
+  width: auto;
+}

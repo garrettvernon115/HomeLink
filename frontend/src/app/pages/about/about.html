@@ -1,111 +1,91 @@
 <!--
 
-About Us Page HTML 
+About Us Page HTML
 @author: [Derek Olive]
-Version: 0.8
+Version: 1.0
 
 -->
 
-<!-- Sections with info on HomeLink features -->
+<!-- Hero Section -->
 <section class="about-hero">
-  <div class="hero-content">
+  <div class="about-hero-content">
     <h1>About HomeLink</h1>
-    <p>
-      Connecting Homeowners to Service Providers with Simplicity, Security, and Modern Technology.
-    </p>
+    <p>Connecting homeowners to trusted service providers with simplicity, security, and modern technology.</p>
   </div>
 </section>
 
+<!-- Mission Section -->
 <section class="about-mission">
-  <h2>Our Mission</h2>
-  <p>
-    At HomeLink, our mission is to simplify the experience of finding service providers for all property owners. 
-    We are committed to creating a secure and user-friendly platform that connects people with the services they need while making it easy to find and book trusted professionals. Our goal is to foster a community where users can easily access reliable information and resources 
-    to enhance their property-related experiences and services.
-  </p>
+  <div class="mission-inner">
+    <h2>Our Mission</h2>
+    <p>
+      At HomeLink, our mission is to simplify the experience of finding service providers for all property owners.
+      We are committed to creating a secure and user-friendly platform that connects people with the services they need,
+      making it easy to find and book trusted professionals. Our goal is to foster a community where users can
+      access reliable resources to enhance their property-related experiences.
+    </p>
+  </div>
 </section>
 
+<!-- Features Section -->
 <section class="about-features">
-  <div class="feature-card">
-    <h3>Searching and Filtering</h3>
-    <p>
-        Homelink offers an intuitive search and filtering system that allows users to easily find service providers based on their specific needs and preferences.
-    </p>
-  </div>
+  <h2 class="features-heading">What We Offer</h2>
+  <div class="features-grid">
 
-  <div class="feature-card">
-    <h3>Modern Technology</h3>
-    <p>
-      Built with cutting-edge tools, HomeLink offers a fast and seamless
-      browsing experience while making the process of finding service providers easier than ever.
-    </p>
-  </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">search</span>
+      </div>
+      <h3>Smart Search &amp; Filtering</h3>
+      <p>Find service providers quickly with an intuitive search system tailored to your specific needs and preferences.</p>
+    </div>
 
-  <div class="feature-card">
-    <h3>Community Focused</h3>
-    <p>
-        We prioritize building a strong community of users and service providers, fostering trust and collaboration to create a supportive environment for all.
-    </p>
-  </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">timeline</span>
+      </div>
+      <h3>Track Progress</h3>
+      <p>Monitor your service requests in real-time, with full visibility into each stage of the process from booking to completion.</p>
+    </div>
 
-  <div class="feature-card">
-    <h3>Dynamic Pricing</h3>
-    <p>
-      Our platform adapts pricing based on market conditions and user demand,
-      ensuring fair and competitive rates for all users.
-    </p>
-  </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">dashboard</span>
+      </div>
+      <h3>Centralized Management</h3>
+      <p>Manage all your property services in one place — track requests, communicate with providers, and review history effortlessly.</p>
+    </div>
 
-  <div class="feature-card">
-    <h3>Job Duration Calculation</h3>
-    <p>
-      Homelink calculates job duration based on the type of service and the size of the property, providing users with accurate estimates for their projects.
-    </p>
-  </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">groups</span>
+      </div>
+      <h3>Community Focused</h3>
+      <p>We prioritize building a strong community of homeowners and providers, fostering trust and collaboration for everyone.</p>
+    </div>
 
-  <div class="feature-card">
-    <h3>Centralized Management</h3>
-    <p>
-      Homelink provides a centralized management system for all property-related services, allowing users to easily track and manage their projects in one place.
-    </p>
-  </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">bolt</span>
+      </div>
+      <h3>Modern Technology</h3>
+      <p>Built with cutting-edge tools, HomeLink delivers a fast and seamless experience that makes finding help easier than ever.</p>
+    </div>
 
-  <div class="feature-card">
-    <h3>Service History Tracking</h3>
-    <p>
-        Homelink allows users to track their service history, providing a comprehensive record of all past services and interactions with service providers.
-    </p>
-  </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">receipt_long</span>
+      </div>
+      <h3>Service History</h3>
+      <p>Access a comprehensive record of all past services and interactions, giving you full visibility into your home's maintenance.</p>
+    </div>
 
-  <div class="feature-card">
-    <h3>Specialized instructions</h3>
-    <p>
-        Homelink allows users to provide specialized instructions for each service request, ensuring that service providers have all the necessary details to complete tasks effectively.
-    </p>
   </div>
-
-  <div class="feature-card">
-    <h3>Track Progress</h3>
-    <p>
-        Homelink allows users to track the progress of their service requests in real-time, providing visibility into each stage of the process.
-    </p>
-  </div>
-
-  <div class="feature-card">
-    <h3>Notifications and Alerts</h3>
-    <p>
-      Homelink keeps users informed with real-time notifications and alerts about service updates, request status changes, and important system messages.
-    </p>
-  </div>
-  
 </section>
 
-<!-- Call to Action Section at bottom of page-->
+<!-- Call to Action Section -->
 <section class="about-cta">
   <h2>Ready to Get Started?</h2>
-  <p>Discover services and connect with providers on HomeLink.</p>
-
-  <a routerLink="/" class="cta-button">
-    Go to Homepage
-  </a>
+  <p>Discover services and connect with trusted providers on HomeLink.</p>
+  <a routerLink="/services" class="cta-button">Browse Services</a>
 </section>

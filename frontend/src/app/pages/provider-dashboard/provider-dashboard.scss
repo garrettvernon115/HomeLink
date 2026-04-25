@@ -1,8 +1,18 @@
+.toast {
+  padding: 12px 20px;
+  border-radius: 6px;
+  margin: 0 0 1rem;
+  font-weight: 500;
+
+  &.toast-success { background: #d4edda; color: #155724; }
+  &.toast-error   { background: #f8d7da; color: #721c24; }
+}
+
 .dashboard-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 30px 20px;
-  font-family: 'Arial', sans-serif;
+
 }
 
 /* Header Section */
@@ -61,11 +71,11 @@
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s;
-  margin-left: 20p;
+  margin-left: 20px;
 
   &:hover {
     background: white;
-    color: #667eea;
+    color: #2563eb;
   }
 }
 /* Tabs Section */

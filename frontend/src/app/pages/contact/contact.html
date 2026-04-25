@@ -67,6 +67,11 @@ Version: 1.0 3/14/26
         {{ successMessage }}
       </p>
 
+      <!-- Error message -->
+      <p class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </p>
+
     </form>
 
   </div>

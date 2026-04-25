@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
@@ -32,7 +32,8 @@ export class ServiceRequestFormComponent implements OnInit {
     private http: HttpClient,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {
     this.requestForm = this.fb.group({
       categoryId: ['', Validators.required],
@@ -66,10 +67,12 @@ export class ServiceRequestFormComponent implements OnInit {
       .subscribe({
         next: (categories) => {
           this.categories = categories;
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error loading categories:', error);
           this.errorMessage = 'Failed to load service categories';
+          this.cdr.detectChanges();
         }
       });
   }
@@ -114,6 +117,7 @@ export class ServiceRequestFormComponent implements OnInit {
         next: (response) => {
           this.isLoading = false;
           this.successMessage = 'Service request created successfully!';
+          this.cdr.detectChanges();
           
           // Redirect to dashboard after 2 seconds
           setTimeout(() => {
@@ -124,6 +128,7 @@ export class ServiceRequestFormComponent implements OnInit {
           this.isLoading = false;
           this.errorMessage = error.error?.message || 'Failed to create service request';
           console.error('Error creating request:', error);
+          this.cdr.detectChanges();
         }
       });
   }

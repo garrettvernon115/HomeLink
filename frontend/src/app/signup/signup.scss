@@ -49,7 +49,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%);
   padding: 20px;
 }
 
@@ -96,14 +96,14 @@
 }
 
 .form-control:focus {
-  border-color: #667eea;
+  border-color: #2563eb;
   outline: none;
 }
 
 .signup-button {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -127,14 +127,14 @@
 }
 
 .login-link a {
-  color: #667eea;
+  color: #2563eb;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s;
 }
 
 .login-link a:hover {
-  color: #764ba2;
+  color: #1e3a8a;
 }
 
 .home-link {
@@ -150,5 +150,5 @@
 }
 
 .home-link a:hover {
-  color: #667eea;
+  color: #2563eb;
 }

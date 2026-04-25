@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -36,7 +36,9 @@ export class ProviderDashboardComponent implements OnInit {
   isLoading: boolean = true;
   errorMessage: string = '';
   activeTab: 'my-requests' | 'available' = 'my-requests';
-  priceInputs: { [key: number]: number } = {}; // Store price inputs for each request
+  priceInputs: { [key: number]: number } = {};
+  toastMessage = '';
+  toastType: 'success' | 'error' = 'success';
 
   // Sort options - using separate variable for UI
   selectedSortOption: SortOption = 'soonest';
@@ -44,7 +46,8 @@ export class ProviderDashboardComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -63,10 +66,12 @@ export class ProviderDashboardComponent implements OnInit {
         .subscribe({
           next: (profile) => {
             this.userName = `${profile.firstName} ${profile.lastName}`;
+            this.cdr.detectChanges();
           },
           error: (error) => {
             console.error('Error loading user profile:', error);
             this.userName = 'User';
+            this.cdr.detectChanges();
           }
         });
     }
@@ -83,7 +88,6 @@ export class ProviderDashboardComponent implements OnInit {
     this.http.get<any[]>(`http://localhost:8080/api/service-requests/provider/${userId}`)
       .subscribe({
         next: (requests) => {
-
           const mappedRequests: ServiceRequest[] = requests.map(req => ({
             id: req.id,
             categoryName: req.categoryName,
@@ -93,16 +97,17 @@ export class ProviderDashboardComponent implements OnInit {
             homeownerName: req.homeownerName,
             agreedPrice: req.agreedPrice
           }));
-          // Apply sorting after loading
 
-          // Split active vs cancelled
           this.myRequests = mappedRequests.filter(r => r.status !== 'CANCELLED');
           this.cancelledRequests = mappedRequests.filter(r => r.status === 'CANCELLED');
-
           this.applySorting();
+          this.isLoading = false;
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error loading my requests:', error);
+          this.isLoading = false;
+          this.cdr.detectChanges();
         }
       });
   }
@@ -125,11 +130,13 @@ export class ProviderDashboardComponent implements OnInit {
 
           this.applySorting();
           this.isLoading = false;
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error loading available requests:', error);
           this.errorMessage = 'Failed to load available requests';
           this.isLoading = false;
+          this.cdr.detectChanges();
         }
       });
   }
@@ -170,6 +177,12 @@ export class ProviderDashboardComponent implements OnInit {
     });
   }
 
+  showToast(msg: string, type: 'success' | 'error' = 'success') {
+    this.toastMessage = msg;
+    this.toastType = type;
+    setTimeout(() => this.toastMessage = '', 3000);
+  }
+
    // Change sort option
   onSortChange(event: any) {
     this.selectedSortOption = event.target.value;
@@ -183,7 +196,7 @@ export class ProviderDashboardComponent implements OnInit {
     const proposedPrice = this.priceInputs[requestId];
     
     if (!proposedPrice || proposedPrice <= 0) {
-      alert('Please enter a valid price before accepting');
+      this.showToast('Please enter a valid price before accepting', 'error');
       return;
     }
 
@@ -194,16 +207,16 @@ export class ProviderDashboardComponent implements OnInit {
     this.http.patch(`http://localhost:8080/api/service-requests/${requestId}/accept?providerId=${userId}`, body)
       .subscribe({
         next: () => {
-          // Clear price input
           delete this.priceInputs[requestId];
-          // Reload both lists
           this.loadMyRequests();
           this.loadAvailableRequests();
-          alert('Request accepted successfully!');
+          this.showToast('Request accepted successfully!');
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error accepting request:', error);
-          alert('Failed to accept request. It may have already been assigned.');
+          this.showToast('Failed to accept request. It may have already been assigned.', 'error');
+          this.cdr.detectChanges();
         }
       });
   }
@@ -222,11 +235,13 @@ export class ProviderDashboardComponent implements OnInit {
       .subscribe({
         next: () => {
           this.loadMyRequests();
-          alert('Status updated successfully!');
+          this.showToast('Status updated successfully!');
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error updating status:', error);
-          alert('Failed to update status');
+          this.showToast('Failed to update status', 'error');
+          this.cdr.detectChanges();
         }
       });
   }
@@ -249,11 +264,13 @@ export class ProviderDashboardComponent implements OnInit {
       .subscribe({
         next: () => {
           this.loadMyRequests();
-          alert('Request cancelled successfully!');
+          this.showToast('Request cancelled successfully!');
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error cancelling request:', error);
-          alert('Failed to cancel request');
+          this.showToast('Failed to cancel request', 'error');
+          this.cdr.detectChanges();
         }
       });
   }

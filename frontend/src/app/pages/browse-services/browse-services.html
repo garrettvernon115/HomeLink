@@ -9,9 +9,9 @@
     <!-- Search Bar -->
     <div class="search-section">
       <div class="search-box">
-        <input 
-          type="text" 
-          placeholder="Search for a service..." 
+        <input
+          type="text"
+          placeholder="Search for a service..."
           [(ngModel)]="searchTerm"
           (input)="onSearchChange($event)"
           class="search-input">
@@ -50,23 +50,31 @@
     </div>
 
     <!-- Category Cards -->
-    <div *ngFor="let category of filteredCategories" class="category-card">
-      <div class="card-icon">
-        {{ getCategoryIcon(category.name) }}
+    <div *ngFor="let category of filteredCategories" class="category-card"
+         (click)="requestService(category.id, category.name)">
+
+      <!-- Image banner — shows photo if iconUrl is set, else a themed gradient -->
+      <div class="card-banner"
+           [ngClass]="getBannerClass(category.name)"
+           [style.background-image]="category.iconUrl ? 'url(' + category.iconUrl + ')' : null">
+        <span class="card-banner-icon material-symbols-outlined">
+          {{ getCategoryIcon(category.name) }}
+        </span>
       </div>
-      <h3>{{ category.name }}</h3>
-      <p class="description">{{ category.description }}</p>
-      
-      <!-- Price Range -->
-      <p class="price-range" *ngIf="category.estimatedPriceMin && category.estimatedPriceMax">
-        ${{ category.estimatedPriceMin }} - ${{ category.estimatedPriceMax }}
-      </p>
-      
-      <button 
-        class="request-btn" 
-        (click)="requestService(category.id, category.name)">
-        Request Service
-      </button>
+
+      <div class="card-body">
+        <h3>{{ category.name }}</h3>
+        <p class="description">{{ category.description }}</p>
+
+        <p class="price-range" *ngIf="category.estimatedPriceMin && category.estimatedPriceMax">
+          ${{ category.estimatedPriceMin }} – ${{ category.estimatedPriceMax }}
+        </p>
+
+        <button class="request-btn"
+                (click)="requestService(category.id, category.name); $event.stopPropagation()">
+          Request Service
+        </button>
+      </div>
     </div>
   </div>
 </div>

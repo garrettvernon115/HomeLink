@@ -2,116 +2,204 @@
 
 About Us component SCSS styles
 @author: [Derek Olive]
-Version: 0.8
+Version: 1.0
 
 */
 
-
-/* HERO SECTION */
+/* ── HERO ─────────────────────────────────────────────── */
 .about-hero {
-  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 0%, rgba(37, 99, 235, 0.35) 0%, transparent 65%),
+    linear-gradient(155deg, #1e3a8a 0%, #162d6e 60%, #0f1e4a 100%);
+  position: relative;
+  overflow: hidden;
   color: white;
-  padding: 100px 20px;
+  padding: 90px 24px 100px;
   text-align: center;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
 }
 
-.hero-content h1 {
-  font-size: 50px;
-  margin-bottom: 15px;
+.about-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 0 auto;
+
+  h1 {
+    font-family: var(--font-heading, 'Fraunces', serif);
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.82);
+  }
 }
 
-.hero-content p {
-  font-size: 25px;
-  opacity: 0.9;
-}
-
-/* MISSION SECTION */
+/* ── MISSION ──────────────────────────────────────────── */
 .about-mission {
-  max-width: 900px;
-  margin: 60px auto;
+  padding: 72px 24px;
+  background: var(--color-bg-page, #f8f9fc);
+}
+
+.mission-inner {
+  max-width: 760px;
+  margin: 0 auto;
   text-align: center;
-  padding: 0 20px;
+
+  h2 {
+    font-family: var(--font-heading, 'Fraunces', serif);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: var(--color-brand-navy, #1e3a8a);
+    margin-bottom: 24px;
+  }
+
+  p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--color-text-secondary, #555e70);
+  }
 }
 
-.about-mission h2 {
-  font-size: 30px;
-  margin-bottom: 20px;
-}
-
-.about-mission p {
-  font-size: 18px;
-  line-height: 1.7;
-  color: #444;
-}
-
-/* FEATURES SECTION */
+/* ── FEATURES ─────────────────────────────────────────── */
 .about-features {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  padding: 60px 20px;
-  flex-wrap: wrap;
+  padding: 72px 40px;
+  background: white;
 }
 
-/* Feature Card Styles */
-.feature-card {
-  background: white;
-  width: 280px;
-  padding: 30px 20px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+.features-heading {
+  font-family: var(--font-heading, 'Fraunces', serif);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  color: var(--color-brand-navy, #1e3a8a);
   text-align: center;
-  transition: transform 0.3s ease;
+  margin-bottom: 48px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background: var(--color-bg-page, #f8f9fc);
+  border-radius: 14px;
+  padding: 36px 28px;
+  text-align: center;
+  border-top: 3px solid transparent;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    border-top-color: var(--color-brand-navy-light, #2563eb);
+    box-shadow: var(--shadow-md, 0 4px 16px rgba(0,0,0,0.10));
+  }
+}
+
+.feature-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+
+  .material-symbols-outlined {
+    font-size: 30px;
+    color: white;
+  }
 }
 
 .feature-card h3 {
-  margin-bottom: 15px;
-  font-size: 22px;
+  font-family: var(--font-heading, 'Fraunces', serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary, #1a1a2e);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
 }
 
 .feature-card p {
-  color: #555;
-  font-size: 17px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-text-secondary, #555e70);
 }
 
-/* Feature Card Hover Effect */
-.feature-card:hover {
-  transform: translateY(-8px);
-}
-
-/* Call to Action Section */
+/* ── CTA ──────────────────────────────────────────────── */
 .about-cta {
   text-align: center;
-  padding: 90px 20px;
-  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  padding: 90px 24px;
+  background: linear-gradient(155deg, #1e3a8a 0%, #162d6e 60%, #0f1e4a 100%);
   color: white;
+
+  h2 {
+    font-family: var(--font-heading, 'Fraunces', serif);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 600;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    font-size: 18px;
+    opacity: 0.82;
+    margin-bottom: 36px;
+  }
 }
 
-.about-cta h2 {
-  font-size: 40px;
-  margin-bottom: 15px;
-}
-
-.about-cta p {
-  font-size: 20px;
-  opacity: 0.9;
-  margin-bottom: 30px;
-}
-
-/* Call to Action Button */
 .cta-button {
-  display: inline-block;
-  background: white;
-  color: #1e3a8a;
-  padding: 15px 35px;
-  font-size: 20px;
-  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  background: #ffffff;
+  color: var(--color-brand-navy, #1e3a8a);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 36px;
+  border-radius: 9999px;
   text-decoration: none;
-  font-weight: bold;
-  transition: 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.30);
+    color: var(--color-brand-navy, #1e3a8a);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }
 
-/* Call to Action Button Hover Effect */
-.cta-button:hover {
-  transform: scale(1.05);
+/* ── RESPONSIVE ───────────────────────────────────────── */
+@media (max-width: 900px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 580px) {
+  .about-features {
+    padding: 56px 20px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
 }

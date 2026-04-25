@@ -447,6 +447,9 @@ pids
 # Environment variables
 .env*
 
+# Spring Boot secrets (never commit real credentials)
+**/application-secrets.properties
+
 # Build output directories
 dist/
 out/

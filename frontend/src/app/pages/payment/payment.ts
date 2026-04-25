@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -45,7 +45,8 @@ export class PaymentComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private paymentService: PaymentService,
-    private serviceRequestService: ServiceRequestService
+    private serviceRequestService: ServiceRequestService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +72,7 @@ export class PaymentComponent implements OnInit {
       next: (request) => {
         this.serviceRequest = request;
         this.loadingRequest = false;
+        this.cdr.detectChanges();
         
         // Validate service request is eligible for payment
         if (request.status !== 'COMPLETED') {
@@ -90,6 +92,7 @@ export class PaymentComponent implements OnInit {
         this.loadingRequest = false;
         this.error = err.error?.message || err.error || 'Service request not found';
         console.error('Error loading service request:', err);
+        this.cdr.detectChanges();
       }
     });
   }

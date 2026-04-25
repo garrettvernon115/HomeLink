@@ -15,12 +15,23 @@ export class ContactComponent {
   email = '';
   message = '';
   successMessage = '';
+  errorMessage = '';
 
   onSubmit() {
-    console.log('Contact Form:', this.name, this.email, this.message);
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    if (!this.name.trim() || !this.email.trim() || !this.message.trim()) {
+      this.errorMessage = 'All fields are required.';
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
+      this.errorMessage = 'Please enter a valid email address.';
+      return;
+    }
 
     this.successMessage = 'Message sent successfully!';
-
     this.name = '';
     this.email = '';
     this.message = '';

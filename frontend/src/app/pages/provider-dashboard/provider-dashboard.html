@@ -12,6 +12,11 @@
     </div>
   </header>
 
+  <!-- Toast Notification -->
+  <div *ngIf="toastMessage" class="toast" [ngClass]="'toast-' + toastType">
+    {{ toastMessage }}
+  </div>
+
   <!-- Tabs Section -->
   <section class="tabs-section">
     <button 

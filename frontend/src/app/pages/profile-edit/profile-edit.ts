@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -43,7 +43,8 @@ export class ProfileEditComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -56,11 +57,13 @@ export class ProfileEditComponent implements OnInit {
         next: (profile) => {
           this.profile = profile;
           this.isLoading = false;
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error loading profile:', error);
           this.errorMessage = 'Failed to load profile. Please try again.';
           this.isLoading = false;
+          this.cdr.detectChanges();
         }
       });
   }
@@ -128,16 +131,17 @@ export class ProfileEditComponent implements OnInit {
           this.profile = updatedProfile;
           this.successMessage = 'Profile updated successfully!';
           this.isSaving = false;
-          
-          // Auto-hide success message after 3 seconds
+          this.cdr.detectChanges();
           setTimeout(() => {
             this.successMessage = '';
+            this.cdr.detectChanges();
           }, 3000);
         },
         error: (error) => {
           console.error('Error updating profile:', error);
           this.errorMessage = error.error?.message || 'Failed to update profile. Please try again.';
           this.isSaving = false;
+          this.cdr.detectChanges();
         }
       });
   }

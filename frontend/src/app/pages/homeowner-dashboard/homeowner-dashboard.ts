@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
@@ -34,11 +34,14 @@ export class HomeownerDashboardComponent implements OnInit {
   updateProviderId: number | null = null;
   declineQuote: boolean = false;
   declineReason: string = '';
+  toastMessage = '';
+  toastType: 'success' | 'error' = 'success';
 
   constructor(
     private authService: AuthService,
     private http: HttpClient,
     private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -54,10 +57,12 @@ export class HomeownerDashboardComponent implements OnInit {
       this.http.get<any>('http://localhost:8080/api/users/me').subscribe({
         next: (profile) => {
           this.userName = `${profile.firstName} ${profile.lastName}`;
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error loading user profile:', error);
           this.userName = 'User';
+          this.cdr.detectChanges();
         }
       });
     }
@@ -88,11 +93,13 @@ export class HomeownerDashboardComponent implements OnInit {
 
           this.sortRequests();
           this.isLoading = false;
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error loading service requests:', error);
           this.errorMessage = 'Failed to load service requests';
           this.isLoading = false;
+          this.cdr.detectChanges();
         },
       });
   }
@@ -141,6 +148,12 @@ export class HomeownerDashboardComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  showToast(msg: string, type: 'success' | 'error' = 'success') {
+    this.toastMessage = msg;
+    this.toastType = type;
+    setTimeout(() => this.toastMessage = '', 3000);
+  }
+
   sortRequests() {
     this.serviceRequests.sort((a, b) => {
       const dateA = new Date(a.scheduledDate).getTime();
@@ -159,18 +172,20 @@ export class HomeownerDashboardComponent implements OnInit {
       .subscribe({
         next: () => {
           this.loadServiceRequests();
-          alert('Quote accepted successfully!');
+          this.showToast('Quote accepted successfully!');
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error accepting quote:', error);
-          alert('Failed to accept quote. Please try again.');
+          this.showToast('Failed to accept quote. Please try again.', 'error');
+          this.cdr.detectChanges();
         },
       });
   }
 
   declineQuoteRequest(requestId: number, providerId: number) {
     if (!this.declineReason.trim()) {
-      alert('Please provide a reason for declining the quote.');
+      this.showToast('Please provide a reason for declining the quote.', 'error');
       return;
     }
 
@@ -185,11 +200,13 @@ export class HomeownerDashboardComponent implements OnInit {
           this.loadServiceRequests();
           this.declineQuote = false;
           this.declineReason = '';
-          alert('Quote declined successfully!');
+          this.showToast('Quote declined successfully!');
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error declining quote:', error);
-          alert('Failed to decline quote. Please try again.');
+          this.showToast('Failed to decline quote. Please try again.', 'error');
+          this.cdr.detectChanges();
         },
       });
   }
@@ -211,11 +228,13 @@ export class HomeownerDashboardComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.loadServiceRequests();
-          alert('Request cancelled successfully!');
+          this.showToast('Request cancelled successfully!');
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error cancelling request:', error);
-          alert('Failed to cancel request. Please try again.');
+          this.showToast('Failed to cancel request. Please try again.', 'error');
+          this.cdr.detectChanges();
         },
       });
   }

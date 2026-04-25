@@ -11,6 +11,11 @@
     </div>
   </header>
 
+  <!-- Toast Notification -->
+  <div *ngIf="toastMessage" class="toast" [ngClass]="'toast-' + toastType">
+    {{ toastMessage }}
+  </div>
+
   <!-- Actions Section -->
   <section class="actions-section">
     <button (click)="createNewRequest()" class="btn-primary">
@@ -164,7 +169,6 @@
           <div class="request-details">
             <div class="detail-item">
               <span class="label">Scheduled Date:</span>
-              <span class="value">{{ request.scheduledDate | date:'medium' }}</span>
               <span class="value">{{ request.scheduledDate | date:'medium' }}</span>
             </div>
             <div class="detail-item" *ngIf="request.providerName">

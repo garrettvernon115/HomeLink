@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -26,11 +26,12 @@ export class BrowseServicesComponent implements OnInit {
   isLoading: boolean = true;
   errorMessage: string = '';
   searchTerm: string = '';
-  sortOption: string = 'low-to-high'
+  sortOption: string = 'lowToHigh'
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -44,11 +45,13 @@ export class BrowseServicesComponent implements OnInit {
           this.categories = categories;
           this.filteredCategories = categories;
           this.isLoading = false;
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error loading categories:', error);
           this.errorMessage = 'Failed to load services';
           this.isLoading = false;
+          this.cdr.detectChanges();
         }
       });
   }
@@ -68,18 +71,15 @@ export class BrowseServicesComponent implements OnInit {
   }
 
   sortCategories() {
-  if (!this.filteredCategories) return;
+    if (!this.filteredCategories) return;
 
-  this.filteredCategories.sort((a, b) => {
-    const priceA = a.estimatedPriceMin ?? 0;
-    const priceB = b.estimatedPriceMin ?? 0;
-
-    if (this.sortOption === 'low-to-high') {
-      return priceA - priceB;
-    } else {
-      return priceB - priceA;
-    }
-  });
+    this.filteredCategories.sort((a, b) => {
+      if (this.sortOption === 'lowToHigh') return (a.estimatedPriceMin ?? 0) - (b.estimatedPriceMin ?? 0);
+      if (this.sortOption === 'highToLow') return (b.estimatedPriceMin ?? 0) - (a.estimatedPriceMin ?? 0);
+      if (this.sortOption === 'newest') return b.id - a.id;
+      if (this.sortOption === 'oldest') return a.id - b.id;
+      return 0;
+    });
   }
 
   requestService(categoryId: number, categoryName: string) {
@@ -92,7 +92,34 @@ export class BrowseServicesComponent implements OnInit {
   }
 
   getCategoryIcon(name: string): string {
-    // Return the first letter of the category name as a placeholder
-    return name.charAt(0).toUpperCase();
+    const icons: { [key: string]: string } = {
+      'plumbing':    'plumbing',
+      'electrical':  'electrical_services',
+      'hvac':        'ac_unit',
+      'air':         'ac_unit',
+      'cleaning':    'cleaning_services',
+      'landscaping': 'yard',
+      'lawn':        'yard',
+      'painting':    'format_paint',
+      'carpentry':   'handyman',
+      'roofing':     'roofing',
+      'pest':        'pest_control',
+      'appliance':   'home_repair_service',
+    };
+    const key = name.toLowerCase();
+    for (const k of Object.keys(icons)) {
+      if (key.includes(k)) return icons[k];
+    }
+    return 'home_repair_service';
+  }
+
+  getBannerClass(name: string): string {
+    const themes = [
+      'banner-navy', 'banner-blue', 'banner-steel',
+      'banner-teal', 'banner-indigo', 'banner-slate'
+    ];
+    let hash = 0;
+    for (const ch of name) hash = (hash * 31 + ch.charCodeAt(0)) & 0xffff;
+    return themes[hash % themes.length];
   }
 }

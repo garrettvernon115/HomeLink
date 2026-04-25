@@ -87,11 +87,13 @@ export class AdminDashboardComponent implements OnInit {
           this.filteredUsers = users;
           this.applyFilters();
           this.isLoading = false;
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error loading users:', error);
           this.errorMessage = 'Failed to load users. Please try again.';
           this.isLoading = false;
+          this.cdr.detectChanges();
         }
       });
   }
@@ -204,11 +206,13 @@ export class AdminDashboardComponent implements OnInit {
           this.extractCategories();
           this.applyRequestFilters();
           this.isLoadingRequests = false;
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error loading service requests:', error);
           this.requestsErrorMessage = 'Failed to load service requests. Please try again.';
           this.isLoadingRequests = false;
+          this.cdr.detectChanges();
         }
       });
   }

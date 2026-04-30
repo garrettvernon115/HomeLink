@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 
 interface Category {
   id: number;
@@ -63,7 +64,7 @@ export class ServiceRequestFormComponent implements OnInit {
   }
 
   loadCategories() {
-    this.http.get<any[]>('http://localhost:8080/api/categories')
+    this.http.get<any[]>(`${environment.apiUrl}/api/categories`)
       .subscribe({
         next: (categories) => {
           this.categories = categories;
@@ -112,7 +113,7 @@ export class ServiceRequestFormComponent implements OnInit {
     }
 
     // POST to backend
-    this.http.post(`http://localhost:8080/api/service-requests?homeownerId=${userId}`, requestData)
+    this.http.post(`${environment.apiUrl}/api/service-requests?homeownerId=${userId}`, requestData)
       .subscribe({
         next: (response) => {
           this.isLoading = false;

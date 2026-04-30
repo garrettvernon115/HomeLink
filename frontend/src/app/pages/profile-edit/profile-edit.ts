@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 interface UserProfile {
   email: string;
@@ -52,7 +53,7 @@ export class ProfileEditComponent implements OnInit {
   }
 
   loadProfile(): void {
-    this.http.get<UserProfile>('http://localhost:8080/api/users/me')
+    this.http.get<UserProfile>(`${environment.apiUrl}/api/users/me`)
       .subscribe({
         next: (profile) => {
           this.profile = profile;
@@ -125,7 +126,7 @@ export class ProfileEditComponent implements OnInit {
       phone: this.profile.phone?.trim() || null
     };
 
-    this.http.put<UserProfile>('http://localhost:8080/api/users/me', updateRequest)
+    this.http.put<UserProfile>(`${environment.apiUrl}/api/users/me`, updateRequest)
       .subscribe({
         next: (updatedProfile) => {
           this.profile = updatedProfile;

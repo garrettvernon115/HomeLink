@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class PaymentRequest {
-    
+
     @NotNull
     private Long serviceRequestId;
 
@@ -16,7 +16,6 @@ public class PaymentRequest {
     private BigDecimal amount;
 
     @NotNull
-    @Size(max = 50)
     private PaymentMethod paymentMethod;
 
     @NotNull

@@ -24,169 +24,261 @@
     </button>
   </section>
 
-  <!-- Active Service Requests Section -->
-  <section class="requests-section">
-    <h2>Your Service Requests</h2>
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading your requests...</p>
+  </div>
 
-    <!-- Sort Dropdown -->
-    <div class="sort-container" *ngIf="serviceRequests.length > 0">
-      <label for="sort">Sort By:</label>
-      <select id="sort" [(ngModel)]="sortOption" (change)="sortRequests()">
-        <option value="newest">Newest First</option>
-        <option value="oldest">Oldest First</option>
-      </select>
-    </div>
+  <!-- Error State -->
+  <div *ngIf="errorMessage && !isLoading" class="error-message">
+    {{ errorMessage }}
+  </div>
 
-    <!-- Loading State -->
-    <div *ngIf="isLoading" class="loading">
-      <div class="spinner"></div>
-      <p>Loading your requests...</p>
-    </div>
+  <ng-container *ngIf="!isLoading && !errorMessage">
 
-    <!-- Error State -->
-    <div *ngIf="errorMessage && !isLoading" class="error-message">
-      {{ errorMessage }}
-    </div>
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+      <button class="tab-btn" [class.active]="activeTab === 'active'" (click)="setTab('active')">
+        Active
+        <span class="tab-badge" *ngIf="activeRequests.length > 0">{{ activeRequests.length }}</span>
+      </button>
+      <button class="tab-btn" [class.active]="activeTab === 'completed'" (click)="setTab('completed')">
+        Completed
+        <span class="tab-badge tab-badge--awaiting" *ngIf="completedRequests.length > 0">{{ completedRequests.length }}</span>
+      </button>
+      <button class="tab-btn" [class.active]="activeTab === 'paid'" (click)="setTab('paid')">
+        Paid Services
+        <span class="tab-badge tab-badge--paid" *ngIf="paidRequests.length > 0">{{ paidRequests.length }}</span>
+      </button>
+      <button class="tab-btn" [class.active]="activeTab === 'cancelled'" (click)="setTab('cancelled')">
+        Cancelled
+        <span class="tab-badge tab-badge--cancelled" *ngIf="cancelledRequests.length > 0">{{ cancelledRequests.length }}</span>
+      </button>
+    </nav>
 
-    <!-- Empty State -->
-    <div *ngIf="!isLoading && !errorMessage && serviceRequests.length === 0" class="empty-state">
-      <div class="empty-icon"></div>
-      <h3>No Service Requests Yet</h3>
-      <p>Create your first service request to get started!</p>
-      <button (click)="createNewRequest()" class="btn-secondary">Create Request</button>
-    </div>
+    <!-- ── ACTIVE TAB ─────────────────────────────────────── -->
+    <section class="requests-section" *ngIf="activeTab === 'active'">
 
-    <!-- Active Requests List -->
-    <div *ngIf="!isLoading && activeRequests.length > 0" class="requests-grid">
-      <div *ngFor="let request of activeRequests" class="request-card">
-        <div class="request-header">
-          <h3>{{ request.categoryName }}</h3>
-          <span class="status-badge" [ngClass]="getStatusClass(request.status)">
-            {{ request.status }}
-          </span>
-        </div>
-        <div class="request-body">
-          <p class="description">{{ request.description }}</p>
-          <div class="request-details">
-            <div class="detail-item">
-              <span class="label">Scheduled Date:</span>
-              <span class="value">{{ request.scheduledDate | date:'medium' }}</span>
-            </div>
-            <div class="detail-item" *ngIf="request.providerName">
-              <span class="label">Provider:</span>
-              <span class="value">{{ request.providerName }}</span>
-            </div>
-            <div class="detail-item" *ngIf="request.agreedPrice">
-              <span class="label">Agreed Price:</span>
-              <span class="value price-agreed">${{ request.agreedPrice }}</span>
-            </div>
+      <div class="sort-container" *ngIf="activeRequests.length > 0">
+        <label for="sort">Sort By:</label>
+        <select id="sort" [(ngModel)]="sortOption" (change)="sortRequests()">
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+        </select>
+      </div>
 
-            <!-- Accept/Decline Quote Buttons -->
-            <div *ngIf="request.status === 'PENDING_QUOTE' && request.agreedPrice && request.providerId">
-              <button class="action-btn accept-btn" (click)="acceptQuote(request.id, request.providerId)">
-                Accept Quote
-              </button>
-              <button class="action-btn decline-btn" (click)="updateQuoteRequestId = request.id; updateProviderId = request.providerId; declineQuote = true;">
-                Decline Quote
-              </button>
+      <div *ngIf="serviceRequests.length === 0" class="empty-state">
+        <h3>No Service Requests Yet</h3>
+        <p>Create your first service request to get started!</p>
+        <button (click)="createNewRequest()" class="btn-secondary">Create Request</button>
+      </div>
+
+      <div *ngIf="activeRequests.length === 0 && serviceRequests.length > 0" class="empty-state">
+        <h3>No Active Requests</h3>
+        <p>All your requests have been completed or cancelled.</p>
+        <button (click)="createNewRequest()" class="btn-secondary">Create New Request</button>
+      </div>
+
+      <div *ngIf="activeRequests.length > 0" class="requests-grid">
+        <div *ngFor="let request of activeRequests" class="request-card">
+          <div class="request-header">
+            <h3>{{ request.categoryName }}</h3>
+            <span class="status-badge" [ngClass]="getStatusClass(request.status)">
+              {{ request.status }}
+            </span>
+          </div>
+          <div class="request-body">
+            <p class="description">{{ request.description }}</p>
+            <div class="request-details">
+              <div class="detail-item">
+                <span class="label">Scheduled Date:</span>
+                <span class="value">{{ request.scheduledDate | date:'medium' }}</span>
+              </div>
+              <div class="detail-item" *ngIf="request.providerName">
+                <span class="label">Provider:</span>
+                <span class="value">{{ request.providerName }}</span>
+              </div>
+              <div class="detail-item" *ngIf="request.agreedPrice">
+                <span class="label">Agreed Price:</span>
+                <span class="value price-agreed">${{ request.agreedPrice }}</span>
+              </div>
+
+              <div *ngIf="request.status === 'PENDING_QUOTE' && request.agreedPrice && request.providerId">
+                <button class="action-btn accept-btn" (click)="acceptQuote(request.id, request.providerId)">
+                  Accept Quote
+                </button>
+                <button class="action-btn decline-btn" (click)="updateQuoteRequestId = request.id; updateProviderId = request.providerId; declineQuote = true;">
+                  Decline Quote
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Cancel Button for Active Requests -->
-        <div class="request-footer" *ngIf="request.status !== 'COMPLETED' && request.status !== 'CANCELLED' && request.status !== 'PENDING_QUOTE'">
-          <button class="btn-cancel" (click)="cancelRequest(request.id)">Cancel Request</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Decline Reason Modal -->
-    <div *ngIf="declineQuote" class="modal">
-      <div class="modal-content">
-        <h3>Decline Quote</h3>
-        <textarea [(ngModel)]="declineReason" placeholder="Reason for declining" rows="3"></textarea>
-        <div style="margin-top: 1rem;">
-          <button class="modal-btn confirm" [disabled]="!updateQuoteRequestId" (click)="declineQuoteRequest(updateQuoteRequestId!, updateProviderId!)">
-            Submit
-          </button>
-          <button class="modal-btn cancel" (click)="declineQuote = false; declineReason = '';">
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- No Active Requests (but completed ones exist) -->
-    <div *ngIf="!isLoading && !errorMessage && activeRequests.length === 0 && completedRequests.length > 0" class="empty-state">
-      <div class="empty-icon"></div>
-      <h3>No Active Requests</h3>
-      <p>All your requests have been completed!</p>
-      <button (click)="createNewRequest()" class="btn-secondary">Create New Request</button>
-    </div>
-  </section>
-
-  <!-- Completed Requests Section -->
-  <section class="requests-section completed-section" *ngIf="!isLoading && completedRequests.length > 0">
-    <h2>Completed Requests</h2>
-    <div class="requests-grid">
-      <div *ngFor="let request of completedRequests" class="request-card request-card--completed">
-        <div class="request-header">
-          <h3>{{ request.categoryName }}</h3>
-          <span class="status-badge status-completed">{{ request.status }}</span>
-        </div>
-        <div class="request-body">
-          <p class="description">{{ request.description }}</p>
-          <div class="request-details">
-            <div class="detail-item">
-              <span class="label">Scheduled Date:</span>
-              <span class="value">{{ request.scheduledDate | date:'medium' }}</span>
-            </div>
-            <div class="detail-item" *ngIf="request.providerName">
-              <span class="label">Provider:</span>
-              <span class="value">{{ request.providerName }}</span>
-            </div>
-            <div class="detail-item" *ngIf="request.agreedPrice">
-              <span class="label">Agreed Price:</span>
-              <span class="value price-agreed">${{ request.agreedPrice }}</span>
-            </div>
+          <div class="request-footer" *ngIf="request.status !== 'COMPLETED' && request.status !== 'CANCELLED' && request.status !== 'PENDING_QUOTE'">
+            <button class="btn-cancel" (click)="cancelRequest(request.id)">Cancel Request</button>
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- Cancelled Requests Section -->
-  <section class="requests-section cancelled-section" *ngIf="!isLoading && cancelledRequests.length > 0">
-    <h2>Cancelled Requests ({{ cancelledRequests.length }})</h2>
-    <div class="requests-grid">
-      <div *ngFor="let request of cancelledRequests" class="request-card request-card--cancelled">
-        <div class="request-header">
-          <h3>{{ request.categoryName }}</h3>
-          <span class="status-badge status-cancelled">Cancelled</span>
+      <!-- Decline Reason Modal -->
+      <div *ngIf="declineQuote" class="modal">
+        <div class="modal-content">
+          <h3>Decline Quote</h3>
+          <textarea [(ngModel)]="declineReason" placeholder="Reason for declining" rows="3"></textarea>
+          <div style="margin-top: 1rem;">
+            <button class="modal-btn confirm" [disabled]="!updateQuoteRequestId" (click)="declineQuoteRequest(updateQuoteRequestId!, updateProviderId!)">
+              Submit
+            </button>
+            <button class="modal-btn cancel" (click)="declineQuote = false; declineReason = '';">
+              Cancel
+            </button>
+          </div>
         </div>
-        <div class="request-body">
-          <p class="description">{{ request.description }}</p>
-          <div class="request-details">
-            <div class="detail-item">
-              <span class="label">Scheduled Date:</span>
-              <span class="value">{{ request.scheduledDate | date:'medium' }}</span>
+      </div>
+    </section>
+
+    <!-- ── COMPLETED TAB (unpaid) ─────────────────────────── -->
+    <section class="requests-section" *ngIf="activeTab === 'completed'">
+
+      <div *ngIf="completedRequests.length === 0" class="empty-state">
+        <h3>No Unpaid Completed Requests</h3>
+        <p *ngIf="paidRequests.length > 0">All completed services have been paid. Check the <strong>Paid Services</strong> tab.</p>
+        <p *ngIf="paidRequests.length === 0">Completed services awaiting payment will appear here.</p>
+      </div>
+
+      <div *ngIf="completedRequests.length > 0">
+        <p class="tab-hint">These services are complete and ready for payment.</p>
+        <div class="requests-grid">
+          <div *ngFor="let request of completedRequests" class="request-card request-card--completed">
+            <div class="request-header">
+              <h3>{{ request.categoryName }}</h3>
+              <span class="status-badge status-completed">COMPLETED</span>
             </div>
-            <div class="detail-item" *ngIf="request.providerName">
-              <span class="label">Provider:</span>
-              <span class="value">{{ request.providerName }}</span>
+            <div class="request-body">
+              <p class="description">{{ request.description }}</p>
+              <div class="request-details">
+                <div class="detail-item">
+                  <span class="label">Scheduled Date:</span>
+                  <span class="value">{{ request.scheduledDate | date:'medium' }}</span>
+                </div>
+                <div class="detail-item" *ngIf="request.providerName">
+                  <span class="label">Provider:</span>
+                  <span class="value">{{ request.providerName }}</span>
+                </div>
+                <div class="detail-item" *ngIf="request.agreedPrice">
+                  <span class="label">Amount Due:</span>
+                  <span class="value price-agreed">${{ request.agreedPrice | number:'1.2-2' }}</span>
+                </div>
+              </div>
             </div>
-            <div class="detail-item" *ngIf="request.agreedPrice">
-              <span class="label">Agreed Price:</span>
-              <span class="value price-agreed">${{ request.agreedPrice }}</span>
+            <div class="request-footer">
+              <a [routerLink]="['/payment', request.id]" class="btn-pay">
+                Pay ${{ request.agreedPrice | number:'1.2-2' }}
+              </a>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- ── PAID TAB ───────────────────────────────────────── -->
+    <section class="requests-section" *ngIf="activeTab === 'paid'">
+
+      <div *ngIf="paidRequests.length === 0" class="empty-state">
+        <h3>No Paid Services Yet</h3>
+        <p>Once you pay for a completed service, it will appear here.</p>
+        <button class="btn-secondary" (click)="setTab('completed')">View Completed Services</button>
+      </div>
+
+      <div *ngIf="paidRequests.length > 0" class="requests-grid">
+        <div *ngFor="let request of paidRequests" class="request-card request-card--paid">
+          <div class="request-header">
+            <h3>{{ request.categoryName }}</h3>
+            <span class="status-badge status-paid">PAID</span>
+          </div>
+          <div class="request-body">
+            <p class="description">{{ request.description }}</p>
+            <div class="request-details">
+              <div class="detail-item">
+                <span class="label">Scheduled Date:</span>
+                <span class="value">{{ request.scheduledDate | date:'mediumDate' }}</span>
+              </div>
+              <div class="detail-item" *ngIf="request.providerName">
+                <span class="label">Provider:</span>
+                <span class="value">{{ request.providerName }}</span>
+              </div>
+            </div>
+
+            <!-- Payment receipt block -->
+            <ng-container *ngIf="getPaymentForRequest(request.id) as payment">
+              <div class="payment-receipt">
+                <div class="receipt-row">
+                  <span class="label">Amount Paid</span>
+                  <span class="value amount-paid">${{ payment.amount | number:'1.2-2' }}</span>
+                </div>
+                <div class="receipt-row">
+                  <span class="label">Payment Method</span>
+                  <span class="value">{{ formatPaymentMethod(payment.paymentMethod) }}</span>
+                </div>
+                <div class="receipt-row" *ngIf="payment.cardLastFour && payment.cardLastFour !== '0000'">
+                  <span class="label">Card</span>
+                  <span class="value">**** {{ payment.cardLastFour }}</span>
+                </div>
+                <div class="receipt-row">
+                  <span class="label">Payment Date</span>
+                  <span class="value">{{ payment.paymentDate | date:'medium' }}</span>
+                </div>
+                <div class="receipt-row">
+                  <span class="label">Transaction ID</span>
+                  <span class="value transaction-id">{{ payment.transactionId }}</span>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CANCELLED TAB ──────────────────────────────────── -->
+    <section class="requests-section" *ngIf="activeTab === 'cancelled'">
+
+      <div *ngIf="cancelledRequests.length === 0" class="empty-state">
+        <h3>No Cancelled Requests</h3>
+        <p>You have no cancelled service requests.</p>
+      </div>
+
+      <div *ngIf="cancelledRequests.length > 0" class="requests-grid">
+        <div *ngFor="let request of cancelledRequests" class="request-card request-card--cancelled">
+          <div class="request-header">
+            <h3>{{ request.categoryName }}</h3>
+            <span class="status-badge status-cancelled">Cancelled</span>
+          </div>
+          <div class="request-body">
+            <p class="description">{{ request.description }}</p>
+            <div class="request-details">
+              <div class="detail-item">
+                <span class="label">Scheduled Date:</span>
+                <span class="value">{{ request.scheduledDate | date:'medium' }}</span>
+              </div>
+              <div class="detail-item" *ngIf="request.providerName">
+                <span class="label">Provider:</span>
+                <span class="value">{{ request.providerName }}</span>
+              </div>
+              <div class="detail-item" *ngIf="request.agreedPrice">
+                <span class="label">Agreed Price:</span>
+                <span class="value price-agreed">${{ request.agreedPrice }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </ng-container>
 
   <!-- Stats Section -->
-  <section class="stats-section" *ngIf="serviceRequests.length > 0">
+  <section class="stats-section" *ngIf="!isLoading && serviceRequests.length > 0">
     <div class="stat-card">
       <div class="stat-value">{{ serviceRequests.length }}</div>
       <div class="stat-label">Total Requests</div>
@@ -198,6 +290,10 @@
     <div class="stat-card">
       <div class="stat-value">{{ getCompletedCount() }}</div>
       <div class="stat-label">Completed</div>
+    </div>
+    <div class="stat-card stat-card--paid">
+      <div class="stat-value">{{ getPaidCount() }}</div>
+      <div class="stat-label">Paid</div>
     </div>
   </section>
 </div>

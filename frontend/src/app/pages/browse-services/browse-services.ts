@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 interface Category {
   id: number;
@@ -39,7 +40,7 @@ export class BrowseServicesComponent implements OnInit {
   }
 
   loadCategories() {
-    this.http.get<any[]>('http://localhost:8080/api/categories')
+    this.http.get<any[]>(`${environment.apiUrl}/api/categories`)
       .subscribe({
         next: (categories) => {
           this.categories = categories;

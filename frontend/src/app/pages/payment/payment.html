@@ -1,86 +1,118 @@
 <div class="payment-container">
-  <h2>Complete Payment</h2>
-  
-  <!-- Loading Service Request State -->
-  <div class="loading-state" *ngIf="loadingRequest">
+  <h2>Make a Payment</h2>
+
+  <!-- Loading -->
+  <div class="loading-state" *ngIf="loadingRequests">
     <div class="spinner"></div>
-    <p>Loading service request details...</p>
-  </div>
-  
-  <!-- Service Request Details -->
-  <div class="service-details" *ngIf="serviceRequest && !loadingRequest">
-    <h3>Service Request #{{ serviceRequestId }}</h3>
-    <div class="detail-row">
-      <span class="label">Service:</span>
-      <span class="value">{{ serviceRequest.categoryName }}</span>
-    </div>
-    <div class="detail-row">
-      <span class="label">Description:</span>
-      <span class="value">{{ serviceRequest.description }}</span>
-    </div>
-    <div class="detail-row">
-      <span class="label">Amount:</span>
-      <span class="value amount">${{ serviceRequest.agreedPrice | number:'1.2-2' }}</span>
-    </div>
+    <p>Loading your service requests...</p>
   </div>
 
-  <!-- Success Message -->
+  <!-- Success -->
   <div class="success-message" *ngIf="success">
+    <div class="success-icon"></div>
     <h3>Payment Successful!</h3>
-    <p>Redirecting to dashboard...</p>
+    <p class="transaction-id">Transaction ID: {{ transactionId }}</p>
+    <p>Redirecting to your dashboard...</p>
   </div>
 
-  <!-- Error Message (displayed prominently) -->
-  <div class="error-message" *ngIf="error && !loadingRequest">
-    {{ error }}
-  </div>
-  
-  <!-- Payment Form -->
-  <form (ngSubmit)="submitPayment()" *ngIf="!loading && !success && !loadingRequest && serviceRequest" class="payment-form">
-    <div class="form-group">
-      <label for="paymentMethod">Payment Method *</label>
-      <select 
-        id="paymentMethod"
-        [(ngModel)]="paymentForm.paymentMethod" 
-        name="paymentMethod"
-        required>
-        <option *ngFor="let method of paymentMethods" [value]="method.value">
-          {{ method.label }}
-        </option>
-      </select>
-    </div>
+  <ng-container *ngIf="!loadingRequests && !success">
 
-    <div class="form-group">
-      <label for="cardLastFour">Card Last 4 Digits *</label>
-      <input 
-        type="text" 
-        id="cardLastFour"
-        [(ngModel)]="paymentForm.cardLastFour" 
-        name="cardLastFour" 
-        maxlength="4" 
-        pattern="[0-9]{4}"
-        placeholder="1234"
-        required />
-      <small>Enter the last 4 digits of your card</small>
-    </div>
-
-    <!-- Error Message -->
-    <div class="error-message" *ngIf="error">
+    <!-- Error -->
+    <div class="error-message" *ngIf="error && !selectedRequest">
       {{ error }}
     </div>
 
-    <!-- Submit Button -->
-    <div class="form-actions">
-      <button type="submit" class="btn-primary">
-        Pay ${{ paymentForm.amount | number:'1.2-2' }}
-      </button>
-      <a routerLink="/homeowner/dashboard" class="btn-secondary">Cancel</a>
+    <!-- No payable requests -->
+    <div class="empty-state" *ngIf="payableRequests.length === 0 && !error">
+      <h3>No Pending Payments</h3>
+      <p>You have no completed service requests awaiting payment.</p>
+      <a routerLink="/homeowner/dashboard" class="btn-secondary">Back to Dashboard</a>
     </div>
-  </form>
 
-  <!-- Loading State -->
-  <div class="loading-state" *ngIf="loading">
-    <div class="spinner"></div>
-    <p>Processing payment...</p>
-  </div>
+    <!-- Request selector -->
+    <div *ngIf="payableRequests.length > 0">
+      <p class="section-label">Select a service request to pay for:</p>
+      <div class="request-list">
+        <div
+          *ngFor="let req of payableRequests"
+          class="request-card"
+          [class.selected]="selectedRequest?.id === req.id"
+          (click)="selectRequest(req)">
+          <div class="request-card-header">
+            <span class="request-category">{{ req.categoryName }}</span>
+            <span class="request-amount">${{ req.agreedPrice | number:'1.2-2' }}</span>
+          </div>
+          <p class="request-description">{{ req.description }}</p>
+          <p class="request-meta">Request #{{ req.id }} &nbsp;·&nbsp; {{ req.scheduledDate | date:'mediumDate' }}</p>
+        </div>
+      </div>
+
+      <!-- Payment form — shown once a request is selected -->
+      <div class="payment-form-section" *ngIf="selectedRequest">
+        <div class="divider"></div>
+
+        <div class="selected-summary">
+          <h3>Payment Details</h3>
+          <div class="detail-row">
+            <span class="label">Service</span>
+            <span class="value">{{ selectedRequest.categoryName }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Provider</span>
+            <span class="value">{{ selectedRequest.providerName || 'N/A' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Amount Due</span>
+            <span class="value amount">${{ selectedRequest.agreedPrice | number:'1.2-2' }}</span>
+          </div>
+        </div>
+
+        <div class="error-message" *ngIf="error">{{ error }}</div>
+
+        <form (ngSubmit)="submitPayment()" class="payment-form">
+          <div class="form-group">
+            <label for="paymentMethod">Payment Method *</label>
+            <select
+              id="paymentMethod"
+              [(ngModel)]="paymentForm.paymentMethod"
+              name="paymentMethod"
+              required>
+              <option *ngFor="let method of paymentMethods" [value]="method.value">
+                {{ method.label }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group" *ngIf="isCardMethod()">
+            <label for="cardLastFour">Card Last 4 Digits *</label>
+            <input
+              type="text"
+              id="cardLastFour"
+              [(ngModel)]="paymentForm.cardLastFour"
+              name="cardLastFour"
+              maxlength="4"
+              pattern="[0-9]{4}"
+              placeholder="1234"
+              required />
+            <small>Enter the last 4 digits of your card number</small>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" [disabled]="loading">
+              <span *ngIf="!loading">Pay ${{ selectedRequest.agreedPrice | number:'1.2-2' }}</span>
+              <span *ngIf="loading">Processing...</span>
+            </button>
+            <a routerLink="/homeowner/dashboard" class="btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Loading payment spinner -->
+    <div class="loading-state" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Processing payment...</p>
+    </div>
+
+  </ng-container>
 </div>

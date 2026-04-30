@@ -76,7 +76,13 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
 
-  // Payment page (homeowner only)
+  // Payment page (homeowner only) — with or without a preselected service request
+  {
+    path: 'payment',
+    loadComponent: () => import('./pages/payment/payment')
+      .then(m => m.PaymentComponent),
+    canActivate: [authGuard, homeownerGuard]
+  },
   {
     path: 'payment/:serviceRequestId',
     loadComponent: () => import('./pages/payment/payment')

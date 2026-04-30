@@ -6,5 +6,6 @@ package com.homelink.backend.model;
 public enum PaymentMethod {
     CREDIT_CARD,
     DEBIT_CARD,
-    PAYPAL
+    PAYPAL,
+    BANK_TRANSFER
 }

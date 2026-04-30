@@ -107,6 +107,77 @@
   font-weight: bold;
 }
 
+/* Tab Navigation */
+.tab-nav {
+  display: flex;
+  gap: 4px;
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 28px;
+}
+
+.tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+
+  &:hover:not(.active) {
+    background: #e2e8f0;
+    color: #334155;
+  }
+
+  &.active {
+    background: white;
+    color: #1e3a8a;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.tab-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+
+  &.tab-badge--awaiting {
+    background: #d97706;
+  }
+
+  &.tab-badge--paid {
+    background: #16a34a;
+  }
+
+  &.tab-badge--cancelled {
+    background: #dc2626;
+  }
+}
+
+.tab-hint {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
 /* Requests Section */
 .requests-section {
   margin-bottom: 40px;
@@ -287,6 +358,99 @@
   }
 }
 
+/* Paid Card Variant */
+.request-card--paid {
+  border-left: 4px solid #16a34a;
+}
+
+/* Cancelled Card Variant */
+.request-card--cancelled {
+  border-left: 4px solid #dc3545;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+/* Paid Status Badge */
+.status-paid {
+  background: #dcfce7;
+  color: #14532d;
+}
+
+/* Payment Receipt Block */
+.payment-receipt {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5px 0;
+  font-size: 13px;
+  border-bottom: 1px solid #dcfce7;
+
+  &:last-child { border-bottom: none; }
+
+  .label {
+    color: #166534;
+    font-weight: 600;
+  }
+
+  .value {
+    color: #14532d;
+    font-weight: 500;
+  }
+
+  .amount-paid {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #16a34a;
+  }
+
+  .transaction-id {
+    font-family: monospace;
+    font-size: 11px;
+    color: #64748b;
+    word-break: break-all;
+    text-align: right;
+    max-width: 60%;
+  }
+}
+
+/* Pay Now Button */
+.btn-pay {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+
+  &:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+  }
+}
+
+/* Paid Stat Card */
+.stat-card--paid .stat-value {
+  color: #16a34a;
+}
+
 .request-header {
   display: flex;
   justify-content: space-between;
@@ -435,6 +599,16 @@
 
   .stats-section {
     grid-template-columns: 1fr;
+  }
+
+  .tab-nav {
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    flex: 1 1 auto;
+    font-size: 12px;
+    padding: 8px 10px;
   }
 }
 /* Action Buttons for Quotes */

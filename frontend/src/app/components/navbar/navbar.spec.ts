@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { Navbar } from './navbar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FactoryTarget } from '@angular/compiler';
+import { environment } from '../../../environments/environment';
 
 describe('Navbar', () => {
   let component: Navbar;
@@ -58,7 +59,7 @@ it('should show welcome message when logged in', fakeAsync(() => {
   fixture.detectChanges();
 
   // Flush all matching requests for /api/users/me
-  httpMock.match('http://localhost:8080/api/users/me').forEach(req => {
+  httpMock.match(`${environment.apiUrl}/api/users/me`).forEach(req => {
     req.flush({ firstName: 'Tester' });
   });
 

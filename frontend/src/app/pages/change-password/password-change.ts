@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-password-change',
@@ -53,7 +54,7 @@ export class PasswordChangeComponent implements OnInit {
     };
 
     this.http.post(
-      'http://localhost:8080/api/users/change-password',
+      `${environment.apiUrl}/api/users/change-password`,
       body,
       {
         headers: {

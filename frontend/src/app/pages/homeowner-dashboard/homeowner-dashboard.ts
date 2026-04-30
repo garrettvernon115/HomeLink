@@ -1,9 +1,12 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { PaymentService, PaymentResponse } from '../../services/payment.service';
+import { environment } from '../../../environments/environment';
 
 interface ServiceRequest {
   id: number;
@@ -16,6 +19,8 @@ interface ServiceRequest {
   providerId: number;
 }
 
+type DashboardTab = 'active' | 'completed' | 'paid' | 'cancelled';
+
 @Component({
   selector: 'app-homeowner-dashboard',
   standalone: true,
@@ -27,6 +32,8 @@ export class HomeownerDashboardComponent implements OnInit {
   userName: string = '';
   userEmail: string = '';
   serviceRequests: ServiceRequest[] = [];
+  payments: PaymentResponse[] = [];
+  activeTab: DashboardTab = 'active';
   isLoading: boolean = true;
   errorMessage: string = '';
   sortOption: string = 'newest';
@@ -41,12 +48,22 @@ export class HomeownerDashboardComponent implements OnInit {
     private authService: AuthService,
     private http: HttpClient,
     private router: Router,
+    private route: ActivatedRoute,
+    private paymentService: PaymentService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.loadUserData();
-    this.loadServiceRequests();
+    this.loadDashboardData();
+
+    this.route.queryParams.subscribe(params => {
+      if (params['paymentSuccess'] === 'true') {
+        this.activeTab = 'paid';
+        const txId = params['transactionId'];
+        this.showToast(txId ? `Payment successful! Tx: ${txId}` : 'Payment successful!');
+      }
+    });
   }
 
   loadUserData() {
@@ -54,13 +71,12 @@ export class HomeownerDashboardComponent implements OnInit {
     if (user) {
       this.userEmail = user.email;
 
-      this.http.get<any>('http://localhost:8080/api/users/me').subscribe({
+      this.http.get<any>('${environment.apiUrl}/api/users/me').subscribe({
         next: (profile) => {
           this.userName = `${profile.firstName} ${profile.lastName}`;
           this.cdr.detectChanges();
         },
-        error: (error) => {
-          console.error('Error loading user profile:', error);
+        error: () => {
           this.userName = 'User';
           this.cdr.detectChanges();
         }
@@ -68,7 +84,7 @@ export class HomeownerDashboardComponent implements OnInit {
     }
   }
 
-  loadServiceRequests() {
+  loadDashboardData() {
     const userId = this.authService.getCurrentUserId();
     if (!userId) {
       this.errorMessage = 'User not found';
@@ -76,32 +92,36 @@ export class HomeownerDashboardComponent implements OnInit {
       return;
     }
 
-    this.http
-      .get<any[]>(`http://localhost:8080/api/service-requests/homeowner/${userId}`)
-      .subscribe({
-        next: (requests) => {
-          this.serviceRequests = requests.map((req) => ({
-            id: req.id,
-            categoryName: req.categoryName,
-            description: req.description,
-            status: req.status,
-            scheduledDate: req.scheduledDate,
-            providerName: req.providerName,
-            agreedPrice: req.agreedPrice,
-            providerId: req.providerId,
-          }));
+    forkJoin({
+      requests: this.http.get<any[]>(`${environment.apiUrl}/api/service-requests/homeowner/${userId}`),
+      payments: this.paymentService.getUserPayments()
+    }).subscribe({
+      next: ({ requests, payments }) => {
+        this.serviceRequests = requests.map((req) => ({
+          id: req.id,
+          categoryName: req.categoryName,
+          description: req.description,
+          status: req.status,
+          scheduledDate: req.scheduledDate,
+          providerName: req.providerName,
+          agreedPrice: req.agreedPrice,
+          providerId: req.providerId,
+        }));
+        this.payments = payments;
+        this.sortRequests();
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.errorMessage = 'Failed to load dashboard data';
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+    });
+  }
 
-          this.sortRequests();
-          this.isLoading = false;
-          this.cdr.detectChanges();
-        },
-        error: (error) => {
-          console.error('Error loading service requests:', error);
-          this.errorMessage = 'Failed to load service requests';
-          this.isLoading = false;
-          this.cdr.detectChanges();
-        },
-      });
+  private get paidRequestIds(): Set<number> {
+    return new Set(this.payments.map(p => p.serviceRequestId));
   }
 
   get activeRequests(): ServiceRequest[] {
@@ -111,11 +131,27 @@ export class HomeownerDashboardComponent implements OnInit {
   }
 
   get completedRequests(): ServiceRequest[] {
-    return this.serviceRequests.filter((req) => req.status === 'COMPLETED');
+    return this.serviceRequests.filter(
+      (req) => req.status === 'COMPLETED' && !this.paidRequestIds.has(req.id)
+    );
+  }
+
+  get paidRequests(): ServiceRequest[] {
+    return this.serviceRequests.filter(
+      (req) => req.status === 'COMPLETED' && this.paidRequestIds.has(req.id)
+    );
   }
 
   get cancelledRequests(): ServiceRequest[] {
     return this.serviceRequests.filter((req) => req.status === 'CANCELLED');
+  }
+
+  getPaymentForRequest(id: number): PaymentResponse | undefined {
+    return this.payments.find(p => p.serviceRequestId === id);
+  }
+
+  formatPaymentMethod(method: string): string {
+    return method.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   }
 
   getStatusClass(status: string): string {
@@ -131,6 +167,10 @@ export class HomeownerDashboardComponent implements OnInit {
     return statusMap[status] || '';
   }
 
+  setTab(tab: DashboardTab) {
+    this.activeTab = tab;
+  }
+
   createNewRequest() {
     this.router.navigate(['/service-request/new']);
   }
@@ -143,6 +183,10 @@ export class HomeownerDashboardComponent implements OnInit {
     return this.serviceRequests.filter((req) => req.status === 'COMPLETED').length;
   }
 
+  getPaidCount(): number {
+    return this.paidRequests.length;
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
@@ -151,32 +195,29 @@ export class HomeownerDashboardComponent implements OnInit {
   showToast(msg: string, type: 'success' | 'error' = 'success') {
     this.toastMessage = msg;
     this.toastType = type;
-    setTimeout(() => this.toastMessage = '', 3000);
+    setTimeout(() => { this.toastMessage = ''; this.cdr.detectChanges(); }, 4000);
   }
 
   sortRequests() {
     this.serviceRequests.sort((a, b) => {
       const dateA = new Date(a.scheduledDate).getTime();
       const dateB = new Date(b.scheduledDate).getTime();
-
       return this.sortOption === 'newest' ? dateB - dateA : dateA - dateB;
     });
   }
 
   acceptQuote(requestId: number, providerId: number) {
     this.http
-      .patch(`http://localhost:8080/api/service-requests/${requestId}/status`, {
+      .patch(`${environment.apiUrl}/api/service-requests/${requestId}/status`, {
         status: 'ACCEPTED',
         providerId,
       })
       .subscribe({
         next: () => {
-          this.loadServiceRequests();
+          this.loadDashboardData();
           this.showToast('Quote accepted successfully!');
-          this.cdr.detectChanges();
         },
-        error: (error) => {
-          console.error('Error accepting quote:', error);
+        error: () => {
           this.showToast('Failed to accept quote. Please try again.', 'error');
           this.cdr.detectChanges();
         },
@@ -190,21 +231,19 @@ export class HomeownerDashboardComponent implements OnInit {
     }
 
     this.http
-      .patch(`http://localhost:8080/api/service-requests/${requestId}/status`, {
+      .patch(`${environment.apiUrl}/api/service-requests/${requestId}/status`, {
         status: 'DECLINED',
         notes: this.declineReason,
         providerId: providerId,
       })
       .subscribe({
         next: () => {
-          this.loadServiceRequests();
+          this.loadDashboardData();
           this.declineQuote = false;
           this.declineReason = '';
           this.showToast('Quote declined successfully!');
-          this.cdr.detectChanges();
         },
-        error: (error) => {
-          console.error('Error declining quote:', error);
+        error: () => {
           this.showToast('Failed to decline quote. Please try again.', 'error');
           this.cdr.detectChanges();
         },
@@ -217,22 +256,18 @@ export class HomeownerDashboardComponent implements OnInit {
 
     const userId = this.authService.getCurrentUserId();
 
-    const body = {
-      providerId: userId,
-      status: 'CANCELLED',
-      notes: 'Request cancelled by homeowner',
-    };
-
     this.http
-      .patch(`http://localhost:8080/api/service-requests/${requestId}/status`, body)
+      .patch(`${environment.apiUrl}/api/service-requests/${requestId}/status`, {
+        providerId: userId,
+        status: 'CANCELLED',
+        notes: 'Request cancelled by homeowner',
+      })
       .subscribe({
-        next: (response) => {
-          this.loadServiceRequests();
+        next: () => {
+          this.loadDashboardData();
           this.showToast('Request cancelled successfully!');
-          this.cdr.detectChanges();
         },
-        error: (error) => {
-          console.error('Error cancelling request:', error);
+        error: () => {
           this.showToast('Failed to cancel request. Please try again.', 'error');
           this.cdr.detectChanges();
         },

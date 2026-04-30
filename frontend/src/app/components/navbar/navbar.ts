@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { first } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -45,7 +46,7 @@ export class Navbar implements OnInit {
     this.userName = user?.email || '';
 
     if (this.isLoggedIn) {
-      this.http.get<{ firstName: string }>('http://localhost:8080/api/users/me').subscribe({
+      this.http.get<{ firstName: string }>(`${environment.apiUrl}/api/users/me`).subscribe({
         next: (profile) => {
           this.firstName = profile.firstName;
         },

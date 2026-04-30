@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 /**
  * Payment request interface for creating payments
@@ -54,7 +55,7 @@ export enum PaymentStatus {
   providedIn: 'root'
 })
 export class PaymentService {
-  private apiUrl = 'http://localhost:8080/api/payments';
+  private apiUrl = `${environment.apiUrl}/api/payments`;
 
   constructor(private http: HttpClient) {}
 

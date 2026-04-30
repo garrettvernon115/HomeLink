@@ -4,6 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 
 interface ServiceRequest {
   id: number;
@@ -62,7 +63,7 @@ export class ProviderDashboardComponent implements OnInit {
       this.userEmail = user.email;
       
       // Fetch full user profile from backend
-      this.http.get<any>('http://localhost:8080/api/users/me')
+      this.http.get<any>('${environment.apiUrl}/api/users/me')
         .subscribe({
           next: (profile) => {
             this.userName = `${profile.firstName} ${profile.lastName}`;
@@ -85,7 +86,7 @@ export class ProviderDashboardComponent implements OnInit {
       return;
     }
 
-    this.http.get<any[]>(`http://localhost:8080/api/service-requests/provider/${userId}`)
+    this.http.get<any[]>(`${environment.apiUrl}/api/service-requests/provider/${userId}`)
       .subscribe({
         next: (requests) => {
           const mappedRequests: ServiceRequest[] = requests.map(req => ({
@@ -113,7 +114,7 @@ export class ProviderDashboardComponent implements OnInit {
   }
 
   loadAvailableRequests() {
-    this.http.get<any[]>('http://localhost:8080/api/service-requests/available')
+    this.http.get<any[]>('${environment.apiUrl}/api/service-requests/available')
       .subscribe({
         next: (requests) => {
           this.availableRequests = requests.map(req => ({
@@ -204,7 +205,7 @@ export class ProviderDashboardComponent implements OnInit {
       agreedPrice: proposedPrice
     };
 
-    this.http.patch(`http://localhost:8080/api/service-requests/${requestId}/accept?providerId=${userId}`, body)
+    this.http.patch(`${environment.apiUrl}/api/service-requests/${requestId}/accept?providerId=${userId}`, body)
       .subscribe({
         next: () => {
           delete this.priceInputs[requestId];
@@ -231,7 +232,7 @@ export class ProviderDashboardComponent implements OnInit {
       notes: `Status updated to ${newStatus}`
     };
 
-    this.http.patch(`http://localhost:8080/api/service-requests/${requestId}/status`, body)
+    this.http.patch(`${environment.apiUrl}/api/service-requests/${requestId}/status`, body)
       .subscribe({
         next: () => {
           this.loadMyRequests();
@@ -260,7 +261,7 @@ export class ProviderDashboardComponent implements OnInit {
       notes: 'Request cancelled by provider'
     };
 
-    this.http.patch(`http://localhost:8080/api/service-requests/${requestId}/status`, body)
+    this.http.patch(`${environment.apiUrl}/api/service-requests/${requestId}/status`, body)
       .subscribe({
         next: () => {
           this.loadMyRequests();

@@ -79,12 +79,87 @@ jobs:
         path: frontend/dist/
         retention-days: 30
 
+  deploy:
+    name: Deploy to AWS
+    runs-on: ubuntu-latest
+    needs: [build-backend, build-frontend]
+    # Only deploy on push to main/develop — not on pull requests
+    if: github.event_name != 'pull_request' && needs.build-backend.result == 'success' && needs.build-frontend.result == 'success'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    # ── Frontend: build & sync to S3, invalidate CloudFront ──────────────
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Install frontend dependencies
+      working-directory: ./frontend
+      run: npm ci
+
+    - name: Build frontend (production)
+      working-directory: ./frontend
+      run: npm run build
+
+    - name: Deploy frontend to S3
+      run: |
+        aws s3 sync frontend/dist/frontend/browser/ s3://${{ secrets.S3_BUCKET }}/ --delete
+
+    - name: Invalidate CloudFront cache
+      run: |
+        aws cloudfront create-invalidation \
+          --distribution-id ${{ secrets.CF_DISTRIBUTION_ID }} \
+          --paths "/*"
+
+    # ── Backend: build JAR, upload to S3, deploy to Elastic Beanstalk ────
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Make Maven wrapper executable
+      working-directory: ./backend
+      run: chmod +x mvnw
+
+    - name: Build backend JAR
+      working-directory: ./backend
+      run: ./mvnw clean package -DskipTests
+
+    - name: Package and upload JAR to S3
+      run: |
+        zip -j homelink-backend.zip backend/target/*.jar
+        aws s3 cp homelink-backend.zip s3://${{ secrets.EB_SOURCE_BUCKET }}/homelink-backend-${{ github.sha }}.zip
+
+    - name: Deploy to Elastic Beanstalk
+      run: |
+        aws elasticbeanstalk create-application-version \
+          --application-name HomeLink \
+          --version-label "v-${{ github.sha }}" \
+          --source-bundle S3Bucket=${{ secrets.EB_SOURCE_BUCKET }},S3Key=homelink-backend-${{ github.sha }}.zip
+        aws elasticbeanstalk update-environment \
+          --environment-name homelink-prod \
+          --version-label "v-${{ github.sha }}"
+
   summary:
     name: Build Summary
     runs-on: ubuntu-latest
     needs: [build-backend, build-frontend]
     if: always()
-    
+
     steps:
     - name: Check build status
       run: |
@@ -94,11 +169,11 @@ jobs:
         echo "Backend Build: ${{ needs.build-backend.result }}"
         echo "Frontend Build: ${{ needs.build-frontend.result }}"
         echo "=========================================="
-        
+
         if [[ "${{ needs.build-backend.result }}" == "success" && "${{ needs.build-frontend.result }}" == "success" ]]; then
-          echo "✅ All builds succeeded!"
+          echo "All builds succeeded!"
           exit 0
         else
-          echo "❌ One or more builds failed"
+          echo "One or more builds failed"
           exit 1
         fi

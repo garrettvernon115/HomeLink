@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 interface User {
   id: number;
@@ -80,7 +81,7 @@ export class AdminDashboardComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.http.get<User[]>('http://localhost:8080/api/users')
+    this.http.get<User[]>('${environment.apiUrl}/api/users')
       .subscribe({
         next: (users) => {
           this.users = users;
@@ -169,7 +170,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   // confirmStatusChange() {
-  //   this.http.patch(`http://localhost:8080/api/users/${this.selectedUser!.id}/status`, { isActive: !this.selectedUser!.isActive })
+  //   this.http.patch(`${environment.apiUrl}/api/users/${this.selectedUser!.id}/status`, { isActive: !this.selectedUser!.isActive })
   //     .subscribe(() => {
   //       this.selectedUser!.isActive = !this.selectedUser!.isActive;
   //       this.showStatusModal = false;
@@ -177,7 +178,7 @@ export class AdminDashboardComponent implements OnInit {
   // }
   confirmStatusChange() {
     this.http.patch(
-      `http://localhost:8080/api/users/${this.selectedUser!.id}/status`,
+      `${environment.apiUrl}/api/users/${this.selectedUser!.id}/status`,
       { isActive: !this.selectedUser!.isActive },
       { responseType: 'text' }
     ).subscribe({
@@ -198,7 +199,7 @@ export class AdminDashboardComponent implements OnInit {
     this.isLoadingRequests = true;
     this.requestsErrorMessage = '';
 
-    this.http.get<ServiceRequest[]>('http://localhost:8080/api/service-requests/all')
+    this.http.get<ServiceRequest[]>('${environment.apiUrl}/api/service-requests/all')
       .subscribe({
         next: (requests) => {
           this.serviceRequests = requests;
@@ -301,7 +302,7 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     this.http.patch(
-      `http://localhost:8080/api/service-requests/${this.selectedRequest.id}/admin-cancel`,
+      `${environment.apiUrl}/api/service-requests/${this.selectedRequest.id}/admin-cancel`,
       { reason: this.cancelReason },
       { responseType: 'text' }
     ).subscribe({

@@ -3,9 +3,9 @@ name: HomeLink CI/CD Pipeline
 # Trigger workflow on push to develop branch or manually
 on:
   push:
-    branches: [ develop ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ develop ]
+    branches: [ main, develop ]
   workflow_dispatch:  # Allows manual triggering
 
 jobs:

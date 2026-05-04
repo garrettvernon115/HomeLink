@@ -52,8 +52,9 @@
   font-size: clamp(2.4rem, 5.5vw, 3.8rem);
   font-weight: 600;
   letter-spacing: -0.03em;
+  word-spacing: 0.08em;
   color: white;
-  margin-bottom: 24px;
+  margin-bottom: 36px;
 
   em {
     font-style: italic;
@@ -65,7 +66,7 @@
   font-size: clamp(1rem, 2vw, 1.2rem);
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.78);
-  max-width: 580px;
+  max-width: 680px;
   margin: 0 auto 40px;
 }
 

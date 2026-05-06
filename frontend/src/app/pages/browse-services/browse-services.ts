@@ -116,8 +116,8 @@ export class BrowseServicesComponent implements OnInit {
 
   getCategoryLocalImage(name: string): string | null {
     const images: { [key: string]: string } = {
-      'hvac': '/assets/ORANGE HVAC TRANSPARENT.png',
-      'air':  '/assets/ORANGE HVAC TRANSPARENT.png',
+      'hvac': '/hvac.png',
+      'air':  '/hvac.png',
     };
     const key = name.toLowerCase();
     for (const k of Object.keys(images)) {

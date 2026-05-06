@@ -114,6 +114,13 @@ export class BrowseServicesComponent implements OnInit {
     return 'home_repair_service';
   }
 
+  getCategoryBannerStyle(name: string): { [key: string]: string } {
+    if (this.getCategoryLocalImage(name)) {
+      return { 'background': 'linear-gradient(135deg, #1e3a8a, #2563eb)' };
+    }
+    return {};
+  }
+
   getCategoryLocalImage(name: string): string | null {
     const images: { [key: string]: string } = {
       'hvac': '/hvac.png',

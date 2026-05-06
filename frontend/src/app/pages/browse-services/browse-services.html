@@ -31,54 +31,66 @@
   </div>
 
   <!-- Loading State -->
-  <div *ngIf="isLoading" class="loading">
-    <div class="spinner"></div>
-    <p>Loading services...</p>
-  </div>
+  @if (isLoading) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading services...</p>
+    </div>
+  }
 
   <!-- Error State -->
-  <div *ngIf="errorMessage && !isLoading" class="error-message">
-    {{ errorMessage }}
-  </div>
+  @if (errorMessage && !isLoading) {
+    <div class="error-message">
+      {{ errorMessage }}
+    </div>
+  }
 
   <!-- Service Categories Grid -->
-  <div *ngIf="!isLoading && !errorMessage" class="categories-grid">
-    <!-- Empty State -->
-    <div *ngIf="filteredCategories.length === 0" class="empty-state">
-      <h3>No services found</h3>
-      <p>Try adjusting your search term</p>
+  @if (!isLoading && !errorMessage) {
+    <div class="categories-grid">
+      <!-- Empty State -->
+      @if (filteredCategories.length === 0) {
+        <div class="empty-state">
+          <h3>No services found</h3>
+          <p>Try adjusting your search term</p>
+        </div>
+      }
+
+      <!-- Category Cards -->
+      @for (category of filteredCategories; track category.id) {
+        <div class="category-card" (click)="requestService(category.id, category.name)">
+
+          <!-- Image banner -->
+          <div class="card-banner"
+               [ngClass]="getBannerClass(category.name)"
+               [ngStyle]="getCategoryBannerStyle(category.name)"
+               [style.background-image]="category.iconUrl ? 'url(' + category.iconUrl + ')' : null">
+            @if (getCategoryLocalImage(category.name)) {
+              <img [src]="getCategoryLocalImage(category.name)" class="card-banner-img" alt="">
+            } @else {
+              <span class="card-banner-icon material-symbols-outlined">
+                {{ getCategoryIcon(category.name) }}
+              </span>
+            }
+          </div>
+
+          <div class="card-body">
+            <h3>{{ category.name }}</h3>
+            <p class="description">{{ category.description }}</p>
+
+            @if (category.estimatedPriceMin && category.estimatedPriceMax) {
+              <p class="price-range">
+                ${{ category.estimatedPriceMin }} – ${{ category.estimatedPriceMax }}
+              </p>
+            }
+
+            <button class="request-btn"
+                    (click)="requestService(category.id, category.name); $event.stopPropagation()">
+              Request Service
+            </button>
+          </div>
+        </div>
+      }
     </div>
-
-    <!-- Category Cards -->
-    <div *ngFor="let category of filteredCategories" class="category-card"
-         (click)="requestService(category.id, category.name)">
-
-      <!-- Image banner — shows photo if iconUrl is set, else a themed gradient -->
-      <div class="card-banner"
-           [ngClass]="getBannerClass(category.name)"
-           [style.background-image]="category.iconUrl ? 'url(' + category.iconUrl + ')' : null">
-        @if (getCategoryLocalImage(category.name)) {
-          <img [src]="getCategoryLocalImage(category.name)" class="card-banner-img" alt="">
-        } @else {
-          <span class="card-banner-icon material-symbols-outlined">
-            {{ getCategoryIcon(category.name) }}
-          </span>
-        }
-      </div>
-
-      <div class="card-body">
-        <h3>{{ category.name }}</h3>
-        <p class="description">{{ category.description }}</p>
-
-        <p class="price-range" *ngIf="category.estimatedPriceMin && category.estimatedPriceMax">
-          ${{ category.estimatedPriceMin }} – ${{ category.estimatedPriceMax }}
-        </p>
-
-        <button class="request-btn"
-                (click)="requestService(category.id, category.name); $event.stopPropagation()">
-          Request Service
-        </button>
-      </div>
-    </div>
-  </div>
+  }
 </div>

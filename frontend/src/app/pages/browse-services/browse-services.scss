@@ -199,6 +199,14 @@
   opacity: 0.95;
 }
 
+.card-banner-img {
+  position: relative;
+  z-index: 1;
+  height: 72px;
+  width: auto;
+  object-fit: contain;
+}
+
 /* Gradient fallback themes */
 .banner-navy   { background: linear-gradient(135deg, #1e3a8a, #2563eb); }
 .banner-blue   { background: linear-gradient(135deg, #1d4ed8, #3b82f6); }

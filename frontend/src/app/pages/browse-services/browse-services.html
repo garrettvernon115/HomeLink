@@ -57,9 +57,13 @@
       <div class="card-banner"
            [ngClass]="getBannerClass(category.name)"
            [style.background-image]="category.iconUrl ? 'url(' + category.iconUrl + ')' : null">
-        <span class="card-banner-icon material-symbols-outlined">
-          {{ getCategoryIcon(category.name) }}
-        </span>
+        @if (getCategoryLocalImage(category.name)) {
+          <img [src]="getCategoryLocalImage(category.name)" class="card-banner-img" alt="">
+        } @else {
+          <span class="card-banner-icon material-symbols-outlined">
+            {{ getCategoryIcon(category.name) }}
+          </span>
+        }
       </div>
 
       <div class="card-body">

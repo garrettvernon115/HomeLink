@@ -114,6 +114,18 @@ export class BrowseServicesComponent implements OnInit {
     return 'home_repair_service';
   }
 
+  getCategoryLocalImage(name: string): string | null {
+    const images: { [key: string]: string } = {
+      'hvac': '/assets/ORANGE HVAC TRANSPARENT.png',
+      'air':  '/assets/ORANGE HVAC TRANSPARENT.png',
+    };
+    const key = name.toLowerCase();
+    for (const k of Object.keys(images)) {
+      if (key.includes(k)) return images[k];
+    }
+    return null;
+  }
+
   getBannerClass(name: string): string {
     const themes = [
       'banner-navy', 'banner-blue', 'banner-steel',

@@ -116,7 +116,7 @@ export class BrowseServicesComponent implements OnInit {
 
   getCategoryBannerStyle(name: string): { [key: string]: string } {
     if (this.getCategoryLocalImage(name)) {
-      return { 'background': 'linear-gradient(135deg, #1e3a8a, #2563eb)' };
+      return { 'background': 'linear-gradient(135deg, #eff6ff, #dbeafe)' };
     }
     return {};
   }

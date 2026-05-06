@@ -6,24 +6,12 @@
 
 .hero {
   flex: 1;
-  background:
-    radial-gradient(ellipse 80% 60% at 20% 0%, rgba(37, 99, 235, 0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(102, 126, 234, 0.20) 0%, transparent 70%),
-    linear-gradient(155deg, #1e3a8a 0%, #162d6e 60%, #0f1e4a 100%);
+  background: white;
   position: relative;
   overflow: hidden;
-  color: white;
+  color: #1a1a2e;
   padding: 100px 24px 110px;
   text-align: center;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-    background-size: 28px 28px;
-    pointer-events: none;
-  }
 }
 
 .hero-container {
@@ -35,9 +23,9 @@
 
 .hero-badge {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: rgba(255, 255, 255, 0.90);
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  color: #2563eb;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -53,19 +41,19 @@
   font-weight: 600;
   letter-spacing: -0.03em;
   word-spacing: 0.08em;
-  color: white;
+  color: #374151;
   margin-bottom: 36px;
 
   em {
     font-style: italic;
-    color: #93c5fd;
+    color: #2563eb;
   }
 }
 
 .hero-subtitle {
   font-size: clamp(1rem, 2vw, 1.2rem);
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.78);
+  color: #000000;
   max-width: 680px;
   margin: 0 auto 40px;
 }
@@ -81,20 +69,21 @@
 .hero-cta-primary {
   display: inline-flex;
   align-items: center;
-  background: #ffffff;
-  color: var(--color-brand-navy, #1e3a8a);
+  background: #2563eb;
+  color: white;
   font-size: 16px;
   font-weight: 700;
   padding: 14px 32px;
   border-radius: var(--radius-full, 9999px);
   text-decoration: none;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.30);
-    color: var(--color-brand-navy, #1e3a8a);
+    box-shadow: 0 8px 28px rgba(37, 99, 235, 0.45);
+    color: white;
+    background: #1e3a8a;
   }
 
   &:active {
@@ -109,15 +98,15 @@
   font-weight: 600;
   padding: 13px 28px;
   border-radius: var(--radius-full, 9999px);
-  border: 2px solid rgba(255, 255, 255, 0.40);
-  color: rgba(255, 255, 255, 0.88);
+  border: 2px solid #2563eb;
+  color: #2563eb;
   text-decoration: none;
   transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.80);
-    color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.08);
+    border-color: #1e3a8a;
+    color: #1e3a8a;
+    background-color: rgba(37, 99, 235, 0.05);
   }
 }
 

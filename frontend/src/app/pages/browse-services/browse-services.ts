@@ -125,6 +125,7 @@ export class BrowseServicesComponent implements OnInit {
     const images: { [key: string]: string } = {
       'hvac':        '/hvac.png',
       'air':         '/hvac.png',
+      'plumbing':    '/orange_wrench.png',
       'carpentry':   '/carpentry.png',
       'electrical':  '/electrical.png',
       'cleaning':    '/cleaning.png',

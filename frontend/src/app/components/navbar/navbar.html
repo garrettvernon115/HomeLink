@@ -1,51 +1,35 @@
-<!--
-
-Navbar component HTML template
-@author: [Derek Olive]
-Version: 1.2
-
--->
-
 <nav class="navbar">
   <a routerLink="/" class="logo">
-    <img src="/Logo.png" alt="HomeLink Logo" class="logo-img">
+    <img src="/HOME_LINK_LOGO.jpg" alt="HomeLink Logo" class="logo-img">
     <h2>HomeLink</h2>
   </a>
 
-  <!--- Navigation links -->
   <ul class="nav-links">
-    <li *ngIf="isLoggedIn && firstName">Welcome, {{ firstName }}!</li>
+    @if (isLoggedIn && firstName) {
+      <li>Welcome, {{ firstName }}!</li>
+    }
     <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a></li>
     <li><a routerLink="/services" routerLinkActive="active">Browse Services</a></li>
     <li><a routerLink="/how-it-works" routerLinkActive="active">How It Works</a></li>
 
-    <!-- Show Dashboard link only when logged in -->
-    <li *ngIf="isHomeowner">
-      <a routerLink="/homeowner/dashboard" routerLinkActive="active">Dashboard</a>
-    </li>
-    <li *ngIf="isHomeowner">
-      <a routerLink="/payment/1" routerLinkActive="active">Payments</a>
-    </li>
-    <li *ngIf="isProvider">
-      <a routerLink="/provider/dashboard" routerLinkActive="active">Dashboard</a>
-    </li>
-    <li *ngIf="isAdmin">
-      <a routerLink="/admin/dashboard" routerLinkActive="active">Admin</a>
-    </li>
-
-    <!-- Show Login/Register only when NOT logged in -->
-    <li *ngIf="!isLoggedIn"><a routerLink="/login" routerLinkActive="active">Login</a></li>
-    <li *ngIf="!isLoggedIn"><a routerLink="/signup" routerLinkActive="active">Register</a></li>
-
-    <!-- Show Edit Profile when logged in -->
-    <li *ngIf="isLoggedIn">
-      <a routerLink="/profile-edit" routerLinkActive="active">Edit Profile</a>
-    </li>
-
-    <!-- Show Logout when logged in -->
-    <li *ngIf="isLoggedIn">
-      <a (click)="logout()" style="cursor: pointer;">Logout</a>
-    </li>
+    @if (isHomeowner) {
+      <li><a routerLink="/homeowner/dashboard" routerLinkActive="active">Dashboard</a></li>
+      <li><a routerLink="/payment/1" routerLinkActive="active">Payments</a></li>
+    }
+    @if (isProvider) {
+      <li><a routerLink="/provider/dashboard" routerLinkActive="active">Dashboard</a></li>
+    }
+    @if (isAdmin) {
+      <li><a routerLink="/admin/dashboard" routerLinkActive="active">Admin</a></li>
+    }
+    @if (!isLoggedIn) {
+      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+      <li><a routerLink="/signup" routerLinkActive="active">Register</a></li>
+    }
+    @if (isLoggedIn) {
+      <li><a routerLink="/profile-edit" routerLinkActive="active">Edit Profile</a></li>
+      <li><a (click)="logout()" style="cursor: pointer;">Logout</a></li>
+    }
 
     <li><a routerLink="/about" routerLinkActive="active">About Us</a></li>
   </ul>

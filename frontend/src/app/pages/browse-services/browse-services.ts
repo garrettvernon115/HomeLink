@@ -77,8 +77,7 @@ export class BrowseServicesComponent implements OnInit {
     this.filteredCategories.sort((a, b) => {
       if (this.sortOption === 'lowToHigh') return (a.estimatedPriceMin ?? 0) - (b.estimatedPriceMin ?? 0);
       if (this.sortOption === 'highToLow') return (b.estimatedPriceMin ?? 0) - (a.estimatedPriceMin ?? 0);
-      if (this.sortOption === 'newest') return b.id - a.id;
-      if (this.sortOption === 'oldest') return a.id - b.id;
+      if (this.sortOption === 'az') return a.name.localeCompare(b.name);
       return 0;
     });
   }

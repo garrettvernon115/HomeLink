@@ -116,15 +116,24 @@ export class BrowseServicesComponent implements OnInit {
 
   getCategoryBannerStyle(name: string): { [key: string]: string } {
     if (this.getCategoryLocalImage(name)) {
-      return { 'background': 'linear-gradient(135deg, #eff6ff, #dbeafe)' };
+      return { 'background': 'linear-gradient(135deg, #f5f9ff, #e8f2ff)' };
     }
     return {};
   }
 
   getCategoryLocalImage(name: string): string | null {
     const images: { [key: string]: string } = {
-      'hvac': '/hvac.png',
-      'air':  '/hvac.png',
+      'hvac':        '/hvac.png',
+      'air':         '/hvac.png',
+      'carpentry':   '/carpentry.png',
+      'electrical':  '/electrical.png',
+      'cleaning':    '/cleaning.png',
+      'handyman':    '/handyman.png',
+      'landscaping': '/landscaping.png',
+      'lawn':        '/landscaping.png',
+      'masonry':     '/masonry.png',
+      'painting':    '/painting.png',
+      'roofing':     '/roofing.png',
     };
     const key = name.toLowerCase();
     for (const k of Object.keys(images)) {

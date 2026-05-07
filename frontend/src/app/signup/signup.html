@@ -13,6 +13,19 @@
     </div>
     
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="signup-form">
+      <!-- Role Selection -->
+      <div class="form-group">
+        <label for="role">Account Type</label>
+        <select
+          id="role"
+          formControlName="role"
+          class="form-control"
+        >
+          <option value="HOMEOWNER">Homeowner</option>
+          <option value="PROVIDER">Service Provider</option>
+        </select>
+      </div>
+
       <!-- First Name -->
       <div class="form-group">
         <label for="firstName">First Name</label>
@@ -71,20 +84,6 @@
           class="form-control"
           placeholder="Enter your phone number"
         >
-      </div>
-      
-      <!-- Role Selection -->
-      <div class="form-group">
-        <label for="role">Account Type</label>
-        <select 
-          id="role" 
-          formControlName="role"
-          class="form-control"
-        >
-          <option value="HOMEOWNER">Homeowner</option>
-          <option value="PROVIDER">Service Provider</option>
-          <option value="ADMIN">Admin</option>
-        </select>
       </div>
       
       <!-- Password -->

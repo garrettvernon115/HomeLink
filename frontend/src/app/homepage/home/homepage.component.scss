@@ -11,8 +11,11 @@
   overflow: hidden;
   color: #1a1a2e;
   min-height: 100vh;
-  padding: 100px 24px 80px;
+  padding: 24px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-container {

@@ -10,7 +10,7 @@
   position: relative;
   overflow: hidden;
   color: #1a1a2e;
-  padding: 100px 24px 110px;
+  padding: 100px 24px 220px;
   text-align: center;
 }
 
@@ -64,6 +64,10 @@
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
+}
+
+.hero-cta-primary, button.hero-cta-primary {
+  cursor: pointer;
 }
 
 .hero-cta-primary {

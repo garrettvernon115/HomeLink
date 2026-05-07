@@ -9,5 +9,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './homepage.component.scss',
 })
 export class HomepageComponent {
-
+  scrollToHowItWorks() {
+    document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+  }
 }

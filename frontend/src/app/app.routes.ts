@@ -5,7 +5,6 @@ import { NotFound } from './not-found/not-found';
 import { LoginComponent } from './pages/login/login';
 import { authGuard, homeownerGuard, providerGuard, adminGuard } from './guards/auth.guard';
 import { ContactComponent } from './pages/contact/contact';
-import { HowItWorksComponent } from './pages/how-it-works/how-it-works';
 import { AboutComponent } from './pages/about/about';
 import { FaqComponent } from './pages/faq/faq';
 
@@ -16,7 +15,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent }, 
   { path: 'signup', component: Signup },
   { path: 'about', component: AboutComponent },
-  { path: 'how-it-works', component: HowItWorksComponent },
   // Contact page
   { path: 'contact', component: ContactComponent },
   

@@ -31,6 +31,12 @@ Application Preview: [View screenshots on GarrettV.com](https://www.garrettv.com
 
 Actively maintained with ongoing feature development and platform improvements.
 
+## Highlights
+
+* Designed and deployed a full-stack multi-role marketplace application using Angular, Spring Boot, MySQL, and AWS.
+* Implemented secure authentication and authorization using JWT and role-based access control.
+* Built CI/CD deployment automation using GitHub Actions and AWS Elastic Beanstalk.
+
 ## Architecture
 
 HomeLink follows a full-stack distributed architecture:

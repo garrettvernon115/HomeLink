@@ -23,7 +23,7 @@ Originally developed from a university capstone concept, the platform was signif
 
 ## Demo
 
-Live Application: https://d2n5l44xq019o.cloudfront.net/
+Live Application: [HomeLink Live Demo](https://d2n5l44xq019o.cloudfront.net/)
 
 Application Preview: Available on portfolio (www.GarrettV.com)
 

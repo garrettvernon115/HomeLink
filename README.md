@@ -1,8 +1,12 @@
-# HomeLink
+# HomeLink Service Hub
 
-### Project Description  
-HomeLink is a web-based marketplace for home services that connects homeowners with service providers such as plumbers, electricians, cleaners, and landscapers. It supports three user roles (homeowner, service provider, admin) and enables service browsing, booking management, secure payments, and provider reviews.
+Full-stack marketplace platform connecting homeowners with service providers through secure service requests, job management workflows, and payment processing.
 
+## Overview
+
+HomeLink is a full-stack marketplace application designed to connect homeowners with service professionals such as plumbers, electricians, cleaners, and landscapers.
+
+Originally developed from a university capstone concept, the platform was significantly re-architected and expanded into a production-oriented full-stack application featuring secure authentication, role-based access control, cloud deployment, and end-to-end service management workflows.
 
 ## Prerequisites
 

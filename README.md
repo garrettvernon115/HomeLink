@@ -26,12 +26,6 @@ Originally developed from a university capstone concept, the platform was signif
 
 * npm 9+
 
-**Development Tools**
-
-* VSCode (recommended)
-
-* Git & GitHub
-
 ## Set Up and Installation
 
 **Installation Steps**

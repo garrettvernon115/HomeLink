@@ -21,6 +21,10 @@ Originally developed from a university capstone concept, the platform was signif
 - Cloud-based deployment and infrastructure management
 - Responsive user interface for multi-role user workflows
 
+## Demo
+
+Live Application: https://d2n5l44xq019o.cloudfront.net/
+
 ## Architecture
 
 HomeLink follows a full-stack distributed architecture:

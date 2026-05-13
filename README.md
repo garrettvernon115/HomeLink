@@ -37,6 +37,7 @@ Actively maintained with ongoing feature development and platform improvements.
 * Implemented secure authentication and authorization using JWT and role-based access control.
 * Built CI/CD deployment automation using GitHub Actions and AWS Elastic Beanstalk.
 * Engineered cloud-hosted frontend delivery through AWS CloudFront and S3 static asset distribution.
+* Developed multi-role workflow support for homeowners, service providers, and administrative platform management.
 
 ## Architecture
 

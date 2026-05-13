@@ -17,6 +17,9 @@ Originally developed from a university capstone concept, the platform was signif
 - Payment processing workflows
 - Cloud deployment using AWS infrastructure
 - CI/CD automation with GitHub Actions
+- Secure payment workflow integration
+- Cloud-based deployment and infrastructure management
+- Responsive user interface for multi-role user workflows
 
 ## Architecture
 

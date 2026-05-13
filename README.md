@@ -52,7 +52,7 @@ HomeLink follows a full-stack distributed architecture:
 
 ### Cloud & Infrastructure
 * AWS RDS
-* AWS S3
+* - AWS S3 (Static Asset Hosting)
 * AWS CloudFront
 * AWS Elastic Beanstalk
 

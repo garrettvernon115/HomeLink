@@ -36,6 +36,7 @@ Actively maintained with ongoing feature development and platform improvements.
 * Designed and deployed a full-stack multi-role marketplace application using Angular, Spring Boot, MySQL, and AWS.
 * Implemented secure authentication and authorization using JWT and role-based access control.
 * Built CI/CD deployment automation using GitHub Actions and AWS Elastic Beanstalk.
+* Engineered cloud-hosted frontend delivery through AWS CloudFront and S3 static asset distribution.
 
 ## Architecture
 

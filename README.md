@@ -85,23 +85,3 @@ ng serve
 Access the UI at: http://localhost:4200.
 
 
-## Verify Installs 
-Run these commands in your terminal to ensure your environment meets the project prerequisites.
- ```bash
-java -version
-```
- ```bash
-mvn -version
-```
- ```bash
-node -v
-```
- ```bash
-ng version
-```
- ```bash
-mysql --version
-```
- ```bash
-git --version
-```

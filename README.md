@@ -82,3 +82,4 @@ npm install
 ng serve
 ```
 ### Access Application
+Open the application locally at http://localhost:4200

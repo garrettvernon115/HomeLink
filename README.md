@@ -6,7 +6,7 @@ Full-stack marketplace platform connecting homeowners with service providers thr
 
 HomeLink is a full-stack marketplace application designed to connect homeowners with service professionals such as plumbers, electricians, cleaners, and landscapers.
 
-Originally developed from a university capstone concept, the platform was significantly re-architected and expanded into a production-oriented full-stack application featuring secure authentication, role-based access control, cloud deployment, and end-to-end service management workflows.
+Originally developed from a university capstone concept, the platform was significantly re-architected and expanded into a deployable full-stack application featuring secure authentication, role-based access control, cloud deployment, and end-to-end service management workflows.
 
 ## Prerequisites
 

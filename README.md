@@ -71,6 +71,3 @@ npm install
 ng serve
 ```
 ## Run Application
-
-
-

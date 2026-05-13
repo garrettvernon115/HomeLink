@@ -14,10 +14,9 @@ Originally developed from a university capstone concept, the platform was re-arc
 - JWT-secured authentication and authorization
 - Service request creation and job lifecycle management
 - Provider dashboards for request and workflow management
-- Payment processing workflows
+- Secure payment processing workflows
 - Cloud deployment using AWS infrastructure
 - CI/CD automation with GitHub Actions
-- Secure payment workflow integration
 - Cloud-based deployment and infrastructure management
 - Responsive user interface for multi-role user workflows
 
@@ -78,9 +77,6 @@ HomeLink follows a full-stack distributed architecture:
 * AWS CloudFront
 * AWS Elastic Beanstalk
 
-### Security
-* Role-Based Access Control (RBAC)
-
 ### DevOps / Automation
 * GitHub Actions CI/CD
 
@@ -89,7 +85,7 @@ HomeLink follows a full-stack distributed architecture:
 * Spring Security
 * REST APIs
 
-## Getting Started
+## Running Locally
 
 ### Clone Repository
 Clone the repository locally:

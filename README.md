@@ -51,6 +51,6 @@ npm install
 ng serve
 ```
 ## Run Application
-Access the UI at: http://localhost:4200.
+
 
 

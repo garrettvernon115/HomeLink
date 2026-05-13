@@ -35,8 +35,6 @@ HomeLink follows a full-stack distributed architecture:
 ### Backend
 * Java 17
 * Spring Boot 3.2+
-* Spring Security
-* REST APIs
 * Hibernate / JPA
 * Maven
 
@@ -57,12 +55,16 @@ HomeLink follows a full-stack distributed architecture:
 * AWS Elastic Beanstalk
 
 ### Security
-* JWT Authentication
 * Role-Based Access Control (RBAC)
 
 ### DevOps / Automation
 * GitHub Actions
-* CI/CD Pipelines
+* CI/CD Deployment Pipelines
+
+### API & Security
+* JWT Authentication
+* Spring Security
+* REST APIs
 
 ## Getting Started
 

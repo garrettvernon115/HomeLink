@@ -67,14 +67,14 @@ git clone https://github.com/garrettvernon115/HomeLink.git
 cd HomeLink
 ```
 
-## Run Backend
+### Run Backend
 Navigate to the backend folder and start the Spring Boot server.
 ```bash
 
 cd backend
 mvn spring-boot:run
 ```
-## Run Frontend
+### Run Frontend
 Open a separate terminal to launch the Angular user interface.
 ```bash
 cd frontend

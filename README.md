@@ -24,15 +24,15 @@ Originally developed from a university capstone concept, the platform was signif
 
 * Java 17
 
-* Spring Boot 3.2+ (Hosted on AWS EC2)
+* Spring Boot 3.2+ 
 
 * Maven
 
-* MySQL (Hosted on AWS RDS Free Tier)
+* MySQL 
 
 **Frontend**
 
-* Angular 17+ (Hosted on AWS S3)
+* Angular 17+ 
 
 * npm 9+
 

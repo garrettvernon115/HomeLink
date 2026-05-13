@@ -31,6 +31,8 @@ Portfolio Case Study: [View screenshots on GarrettV.com](https://garrettv.com/)
 
 Actively maintained with continued feature development and platform enhancements.
 
+Focused on continued platform refinement, feature expansion, and production-quality engineering improvements.
+
 ## Highlights
 
 * Designed and deployed a full-stack multi-role marketplace application using Angular, Spring Boot, MySQL, and AWS.

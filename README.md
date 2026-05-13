@@ -43,7 +43,7 @@ Navigate to the backend folder and start the Spring Boot server.
 cd backend
 mvn spring-boot:run
 ```
-## 3. Set Up Frontend
+## Run Frontend
 Open a separate terminal to launch the Angular user interface.
 ```bash
 cd frontend

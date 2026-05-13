@@ -25,7 +25,7 @@ Originally developed from a university capstone concept, the platform was signif
 
 Live Application: [HomeLink Live Demo](https://d2n5l44xq019o.cloudfront.net/)
 
-Application Preview: Available on portfolio (www.GarrettV.com)
+Application Preview: [View screenshots on GarrettV.com](https://www.garrettv.com/)
 
 ## Architecture
 

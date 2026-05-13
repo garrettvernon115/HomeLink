@@ -8,6 +8,16 @@ HomeLink is a full-stack marketplace application designed to connect homeowners 
 
 Originally developed from a university capstone concept, the platform was significantly re-architected and expanded into a deployable full-stack application featuring secure authentication, role-based access control, cloud deployment, and end-to-end service management workflows.
 
+## Key Features
+
+- Role-based access control for homeowners, service providers, and administrators
+- JWT-secured authentication and authorization
+- Service request creation and job lifecycle management
+- Provider dashboards for request and workflow management
+- Payment processing workflows
+- Cloud deployment using AWS infrastructure
+- CI/CD automation with GitHub Actions
+
 ## Tech Stack
 
 **Backend**

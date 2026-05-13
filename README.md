@@ -39,7 +39,6 @@ HomeLink follows a full-stack distributed architecture:
 * REST APIs
 * Hibernate / JPA
 * Maven
-* MySQL
 
 ### Frontend
 * Angular 17+
@@ -48,11 +47,15 @@ HomeLink follows a full-stack distributed architecture:
 * RxJS
 * npm
 
+### Database
+* MySQL
+
 ### Cloud & Infrastructure
 * AWS EC2
 * AWS RDS
 * AWS S3
 * AWS CloudFront
+* AWS Elastic Beanstalk
 
 ### Security
 * JWT Authentication

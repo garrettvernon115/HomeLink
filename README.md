@@ -26,7 +26,7 @@ Originally developed from a university capstone concept, the platform was signif
 
 * npm 9+
 
-## Set Up and Installation
+## Getting Started
 
 ## Quick Start
 First, clone the repository and switch to the development branch.

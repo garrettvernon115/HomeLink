@@ -37,6 +37,7 @@ HomeLink follows a full-stack distributed architecture:
 * Spring Boot 3.2+
 * Spring Security
 * REST APIs
+* Hibernate / JPA
 * Maven
 * MySQL
 

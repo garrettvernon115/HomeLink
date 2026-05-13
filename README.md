@@ -20,21 +20,31 @@ Originally developed from a university capstone concept, the platform was signif
 
 ## Tech Stack
 
-**Backend**
+### Backend
+Java 17
+Spring Boot 3.2+
+Maven
+MySQL
 
-* Java 17
+### Frontend
+Angular 17+
+TypeScript
+SCSS
+npm
 
-* Spring Boot 3.2+ (Hosted on AWS EC2)
+### Cloud & Infrastructure
+AWS EC2
+AWS RDS
+AWS S3
+AWS CloudFront
 
-* Maven
+### Security
+JWT Authentication
+Role-Based Access Control (RBAC)
 
-* MySQL (Hosted on AWS RDS Free Tier)
-
-**Frontend**
-
-* Angular 17+ (Hosted on AWS S3)
-
-* npm 9+
+### DevOps / Automation
+GitHub Actions
+CI/CD Pipelines
 
 ## Getting Started
 

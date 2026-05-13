@@ -59,7 +59,7 @@ HomeLink follows a full-stack distributed architecture:
 
 ## Getting Started
 
-## Quick Start
+### Clone Repository
 Clone the repository locally:
 
 ```bash

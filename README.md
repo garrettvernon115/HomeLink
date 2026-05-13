@@ -23,19 +23,19 @@ Originally developed from a university capstone concept, the platform was signif
 
 ## Demo
 
-Live Application: [HomeLink Live Demo](https://d2n5l44xq019o.cloudfront.net/)
+Live Demo: [HomeLink Live Demo](https://d2n5l44xq019o.cloudfront.net/)
 
 Portfolio Case Study: [View screenshots on GarrettV.com](https://garrettv.com/)
 
 ## Project Status
 
-Actively maintained with ongoing feature development and platform improvements.
+Actively maintained with continued feature development and platform enhancements.
 
 ## Highlights
 
 * Designed and deployed a full-stack multi-role marketplace application using Angular, Spring Boot, MySQL, and AWS.
-* Implemented secure authentication and authorization using JWT and role-based access control.
 * Built CI/CD deployment automation using GitHub Actions and AWS Elastic Beanstalk.
+* Implemented secure authentication and authorization using JWT and role-based access control.
 * Engineered cloud-hosted frontend delivery through AWS CloudFront and S3 static asset distribution.
 * Developed multi-role workflow support for homeowners, service providers, and administrative platform management.
 

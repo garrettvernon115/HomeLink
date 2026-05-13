@@ -50,7 +50,7 @@ cd frontend
 npm install
 ng serve
 ```
-## 4. **View The App**
+## Run Application
 Access the UI at: http://localhost:4200.
 
 

@@ -45,6 +45,7 @@ HomeLink follows a full-stack distributed architecture:
 * Angular 17+
 * TypeScript
 * SCSS
+* RxJS
 * npm
 
 ### Cloud & Infrastructure

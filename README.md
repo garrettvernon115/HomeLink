@@ -28,22 +28,6 @@ Originally developed from a university capstone concept, the platform was signif
 
 ## Set Up and Installation
 
-**Installation Steps**
-* Download and install:
-* JDK 17 - https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
-* Maven - https://maven.apache.org/download.cgi
-  * Extract to C:\Program Files\
-  * Copy path of apache folder
-  * Search for "Edit the system environment variables" click on environment variables, under System Variables highlight "Path" then Edit.
-  * Paste apache folder path and add a \bin
-* Node.js - https://nodejs.org/en
-* Angular CLI
-  * Open command prompt. npm install -g @angular/cli
-* MySQL 8.0
-  * Full install → Set root password → Add bin folder to system PATH
-* Git - git-scm.com/download/win
-* VS Code - https://code.visualstudio.com/
-
 ## 1. Clone & Branch
 First, clone the repository and switch to the development branch.
 

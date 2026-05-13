@@ -85,34 +85,6 @@ ng serve
 Access the UI at: http://localhost:4200.
 
 
-## Git Workflow
-Follow these steps to ensure your local code is synchronized with the team's progress.
-
-Update Develop and Create Feature Branch
-Always start by pulling the latest changes from the shared develop branch before starting new work.
-```bash
-git checkout develop
-```
-```bash
-git pull
-```
-```bash
-git checkout -b feature/your-ticket-name
-```
-## Finished Work: Commit and Push
-Once your ticket is complete, stage your changes and push them to the remote repository.
-```bash
-git add .
-```
-```bash
-git commit -m "ticket name"
-```
-```bash
-git push -u origin feature/your-ticket-name
-```
-## Open Pull Request into develop on GitHub
-Go to the GitHub repository website to open a Pull Request (PR) from your feature branch into develop for review.
-
 ## Verify Installs 
 Run these commands in your terminal to ensure your environment meets the project prerequisites.
  ```bash

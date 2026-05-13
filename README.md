@@ -67,7 +67,7 @@ HomeLink follows a full-stack distributed architecture:
 * TypeScript
 * SCSS
 * RxJS
-* npm
+* Node.js / npm
 
 ### Database
 * MySQL

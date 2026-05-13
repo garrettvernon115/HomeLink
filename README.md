@@ -79,7 +79,6 @@ HomeLink follows a full-stack distributed architecture:
 * Role-Based Access Control (RBAC)
 
 ### DevOps / Automation
-* GitHub Actions
 * GitHub Actions CI/CD
 
 ### API & Security

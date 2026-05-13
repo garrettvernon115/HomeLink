@@ -51,7 +51,6 @@ HomeLink follows a full-stack distributed architecture:
 * MySQL
 
 ### Cloud & Infrastructure
-* AWS EC2
 * AWS RDS
 * AWS S3
 * AWS CloudFront

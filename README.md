@@ -32,14 +32,8 @@ Originally developed from a university capstone concept, the platform was signif
 First, clone the repository and switch to the development branch.
 
 ```bash
-# Clone the repository
-git clone [https://github.com/FranklinUniversityCompSciPracticum/2026_Spring_Team1_Repo.git](https://github.com/FranklinUniversityCompSciPracticum/2026_Spring_Team1_Repo.git)
-
-# Enter the project directory
-cd 2026_Spring_Team1_Repo
-
-# Switch to the develop branch
-git checkout develop
+git clone https://github.com/garrettvernon115/HomeLink.git
+cd HomeLink
 ```
 
 ## 2. Set Up Backend

@@ -68,14 +68,12 @@ cd HomeLink
 ```
 
 ### Run Backend
-Navigate to the backend folder and start the Spring Boot server.
 ```bash
 
 cd backend
 mvn spring-boot:run
 ```
 ### Run Frontend
-Open a separate terminal to launch the Angular user interface.
 ```bash
 cd frontend
 npm install

@@ -27,6 +27,10 @@ Live Application: [HomeLink Live Demo](https://d2n5l44xq019o.cloudfront.net/)
 
 Application Preview: [View screenshots on GarrettV.com](https://www.garrettv.com/)
 
+## Project Status
+
+Actively maintained with ongoing feature development and platform improvements.
+
 ## Architecture
 
 HomeLink follows a full-stack distributed architecture:

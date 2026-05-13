@@ -80,7 +80,7 @@ HomeLink follows a full-stack distributed architecture:
 
 ### DevOps / Automation
 * GitHub Actions
-* CI/CD Deployment Pipelines
+* GitHub Actions CI/CD
 
 ### API & Security
 * JWT Authentication

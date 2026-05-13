@@ -46,7 +46,7 @@ Focused on continued platform refinement, feature expansion, and production-qual
 HomeLink follows a full-stack distributed architecture:
 
 - Frontend: Angular SPA
-- Backend: Spring Boot RESTful
+- Backend: Spring Boot RESTful API
 - Database: MySQL
 - Cloud Infrastructure: AWS Elastic Beanstalk, RDS, S3, CloudFront
 - Authentication & Security: JWT Authentication + Role-Based Access Control (RBAC)
@@ -63,6 +63,7 @@ HomeLink follows a full-stack distributed architecture:
 
 ### Frontend
 * Angular 17+
+* Angular SPA
 * TypeScript
 * SCSS
 * RxJS

@@ -60,7 +60,7 @@ HomeLink follows a full-stack distributed architecture:
 ## Getting Started
 
 ## Quick Start
-First, clone the repository and switch to the development branch.
+Clone the repository locally:
 
 ```bash
 git clone https://github.com/garrettvernon115/HomeLink.git

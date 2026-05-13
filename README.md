@@ -36,7 +36,7 @@ git clone https://github.com/garrettvernon115/HomeLink.git
 cd HomeLink
 ```
 
-## 2. Set Up Backend
+## Run Backend
 Navigate to the backend folder and start the Spring Boot server.
 ```bash
 

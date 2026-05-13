@@ -28,7 +28,7 @@ Originally developed from a university capstone concept, the platform was signif
 
 ## Set Up and Installation
 
-## 1. Clone & Branch
+## Quick Start
 First, clone the repository and switch to the development branch.
 
 ```bash

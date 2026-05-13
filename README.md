@@ -18,18 +18,18 @@ Originally developed from a university capstone concept, the platform was signif
 - Cloud deployment using AWS infrastructure
 - CI/CD automation with GitHub Actions
 
-## Tech Stack
 ## Architecture
 
 HomeLink follows a full-stack distributed architecture:
 
-Angular Frontend
-↓
-Spring Boot REST API
-↓
-MySQL Database
-↓
-AWS Infrastructure (EC2, RDS, S3, CloudFront)
+- Frontend: Angular
+- Backend: Spring Boot REST API
+- Database: MySQL
+- Cloud Infrastructure: AWS EC2, RDS, S3, CloudFront
+- Authentication & Security: JWT + RBAC
+- Deployment Automation: GitHub Actions CI/CD
+
+## Tech Stack
 
 ### Backend
 * Java 17

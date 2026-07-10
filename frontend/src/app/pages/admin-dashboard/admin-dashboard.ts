@@ -81,7 +81,7 @@ export class AdminDashboardComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.http.get<User[]>('${environment.apiUrl}/api/users')
+    this.http.get<User[]>(`${environment.apiUrl}/api/users`)
       .subscribe({
         next: (users) => {
           this.users = users;
@@ -199,7 +199,7 @@ export class AdminDashboardComponent implements OnInit {
     this.isLoadingRequests = true;
     this.requestsErrorMessage = '';
 
-    this.http.get<ServiceRequest[]>('${environment.apiUrl}/api/service-requests/all')
+    this.http.get<ServiceRequest[]>(`${environment.apiUrl}/api/service-requests/all`)
       .subscribe({
         next: (requests) => {
           this.serviceRequests = requests;

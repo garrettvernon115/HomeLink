@@ -63,7 +63,7 @@ export class ProviderDashboardComponent implements OnInit {
       this.userEmail = user.email;
       
       // Fetch full user profile from backend
-      this.http.get<any>('${environment.apiUrl}/api/users/me')
+      this.http.get<any>(`${environment.apiUrl}/api/users/me`)
         .subscribe({
           next: (profile) => {
             this.userName = `${profile.firstName} ${profile.lastName}`;
@@ -114,7 +114,7 @@ export class ProviderDashboardComponent implements OnInit {
   }
 
   loadAvailableRequests() {
-    this.http.get<any[]>('${environment.apiUrl}/api/service-requests/available')
+    this.http.get<any[]>(`${environment.apiUrl}/api/service-requests/available`)
       .subscribe({
         next: (requests) => {
           this.availableRequests = requests.map(req => ({

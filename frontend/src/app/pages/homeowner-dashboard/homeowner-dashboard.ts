@@ -71,7 +71,7 @@ export class HomeownerDashboardComponent implements OnInit {
     if (user) {
       this.userEmail = user.email;
 
-      this.http.get<any>('${environment.apiUrl}/api/users/me').subscribe({
+      this.http.get<any>(`${environment.apiUrl}/api/users/me`).subscribe({
         next: (profile) => {
           this.userName = `${profile.firstName} ${profile.lastName}`;
           this.cdr.detectChanges();

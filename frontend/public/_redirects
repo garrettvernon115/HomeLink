@@ -1,0 +1,3 @@
+# Cloudflare Pages SPA fallback: serve index.html for any unmatched route so
+# Angular's client-side router handles deep links (e.g. /dashboard) on refresh.
+/*    /index.html    200

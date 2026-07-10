@@ -1,0 +1,7 @@
+target/
+.git/
+.gitignore
+*.md
+.mvn/wrapper/maven-wrapper.jar
+# Never ship real credentials into an image.
+src/main/resources/application-secrets.properties

@@ -22,9 +22,12 @@ Originally developed from a university capstone concept, the platform was re-arc
 
 ## Demo
 
-Live Demo: [HomeLink Live Demo](https://d2n5l44xq019o.cloudfront.net/)
+Live Demo: [HomeLink Live Demo](REPLACE_WITH_FRONTEND_URL)
 
 Portfolio Case Study: [View screenshots on GarrettV.com](https://garrettv.com/)
+
+> The platform was originally architected and deployed on AWS (Elastic Beanstalk, RDS, S3, CloudFront) with GitHub Actions CI/CD.
+> The live demo is currently hosted on a cost-efficient stack (static frontend host plus a containerized backend and managed MySQL) while preserving the same application architecture.
 
 ## Project Status
 

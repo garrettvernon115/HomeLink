@@ -15,9 +15,8 @@ Originally developed from a university capstone concept, the platform was re-arc
 - Service request creation and job lifecycle management
 - Provider dashboards for request and workflow management
 - Secure payment processing workflows
-- Cloud deployment using AWS infrastructure
-- CI/CD automation with GitHub Actions
-- Cloud-based deployment and infrastructure management
+- Cloud deployment with a containerized backend and managed database
+- Automated CI with GitHub Actions and Git-based continuous deployment
 - Responsive user interface for multi-role user workflows
 
 ## Demo
@@ -26,8 +25,8 @@ Live Demo: [HomeLink Live Demo](https://homelink-servicehub.netlify.app/)
 
 Portfolio Case Study: [View screenshots on GarrettV.com](https://garrettv.com/)
 
-> The platform was originally architected and deployed on AWS (Elastic Beanstalk, RDS, S3, CloudFront) with GitHub Actions CI/CD.
-> The live demo is currently hosted on a cost-efficient stack (static frontend host plus a containerized backend and managed MySQL) while preserving the same application architecture.
+> The live demo runs on a cost-efficient, fully managed stack: an Angular frontend on Netlify, a containerized Spring Boot backend on Render, and managed MySQL on Aiven.
+> The platform was originally architected and deployed on AWS (Elastic Beanstalk, RDS, S3, CloudFront) with GitHub Actions CI/CD, and the same application architecture is preserved across both.
 
 ## Project Status
 
@@ -42,17 +41,18 @@ Focused on continued platform refinement, feature expansion, and production-qual
 * Implemented secure authentication and authorization using JWT and role-based access control.
 * Engineered cloud-hosted frontend delivery through AWS CloudFront and S3 static asset distribution.
 * Developed multi-role workflow support for homeowners, service providers, and administrative platform management.
+* Migrated the platform from AWS to a portable, containerized stack (Docker, Render, Netlify, Aiven), reducing hosting cost to near zero while preserving the application architecture.
 
 ## Architecture
 
 HomeLink follows a full-stack distributed architecture:
 
-- Frontend: Angular
-- Backend: Spring Boot RESTful API
-- Database: MySQL
-- Cloud Infrastructure: AWS Elastic Beanstalk, RDS, S3, CloudFront
+- Frontend: Angular (hosted on Netlify)
+- Backend: Spring Boot RESTful API (containerized with Docker, hosted on Render)
+- Database: MySQL (managed, hosted on Aiven)
 - Authentication & Security: JWT Authentication + Role-Based Access Control (RBAC)
-- Deployment Automation: GitHub Actions CI/CD
+- Deployment Automation: GitHub Actions CI with Git-based auto-deploy
+- Original AWS Deployment: Elastic Beanstalk, RDS, S3, CloudFront
 
 
 ## Tech Stack
@@ -65,7 +65,6 @@ HomeLink follows a full-stack distributed architecture:
 
 ### Frontend
 * Angular 17+
-* Angular
 * TypeScript
 * SCSS
 * RxJS
@@ -74,14 +73,18 @@ HomeLink follows a full-stack distributed architecture:
 ### Database
 * MySQL
 
-### Cloud & Infrastructure
-* AWS RDS (Managed MySQL)
-* AWS S3 (Static Asset Hosting)
-* AWS CloudFront
-* AWS Elastic Beanstalk
+### Cloud & Hosting
+* Netlify (frontend hosting)
+* Render (containerized backend)
+* Aiven (managed MySQL)
+* Docker
 
 ### DevOps / Automation
-* GitHub Actions CI/CD
+* GitHub Actions CI
+* Git-based continuous deployment (Netlify and Render)
+
+### Prior AWS Deployment
+* AWS Elastic Beanstalk, RDS, S3, CloudFront
 
 ### API & Security
 * JWT Authentication

@@ -22,7 +22,7 @@ Originally developed from a university capstone concept, the platform was re-arc
 
 ## Demo
 
-Live Demo: [HomeLink Live Demo](https://iridescent-paprenjak-050c5f.netlify.app/)
+Live Demo: [HomeLink Live Demo](https://homelink-servicehub.netlify.app/)
 
 Portfolio Case Study: [View screenshots on GarrettV.com](https://garrettv.com/)
 
